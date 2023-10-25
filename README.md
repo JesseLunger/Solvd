@@ -1,2 +1,2 @@
-# Task-1
-Task 1 for Solvd
+# Solved
+Assignments for Solvd Program
