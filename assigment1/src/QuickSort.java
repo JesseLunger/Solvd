@@ -26,11 +26,10 @@
  * THE SOFTWARE OR THE USE OR  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-public class SelectionSort {
-    /* Description: Selected Sort class with runtime n^2
-    *
-    * Args: None
-    */
+
+
+public class QuickSort {
+
     private void swap(Integer[] arr, int x, int y) {
         /*
          *Description: Function that swaps two integers within a integer array
@@ -44,21 +43,39 @@ public class SelectionSort {
         arr[y] = tmp;
     }
 
-    public void sort(Integer[] arr) {
-        /* Description: Selected Sort algorithm that does a comparison of each
-        * entry in given array and swaps appropriately for minimum -> maximum
+    private int partition(Integer[] arr, int start, int end){
+        /*
+        * Description: Uses last entry of array as pivot 
         *
-        * Args: arr: Int array to be sorted
-        */
+        * */
+        int pivot = arr[end];
+        int nextSwap = start - 1;
 
-        for (int i = 0; i < arr.length; i++) {
-            int minimum = i;
-            for (int j = i+ 1; j < arr.length; j++){
-                if (arr[minimum] > arr[j]){
-                    minimum = j;
-                }
+        for (int i = start; i < end; i++){
+            if (arr[i] <= pivot){
+                nextSwap++;
+                swap(arr, nextSwap, i);
             }
-            swap(arr, i, minimum);
+        }
+        nextSwap++;
+        swap(arr, nextSwap, end);
+        return nextSwap;
+    }
+
+    private void recurSort(Integer[] arr, int start, int end) {
+        /*
+         * Description: functions that initiates recurSort (see above) or the given array
+         *
+         * Args: arr: Integer array to be sorted
+         * */
+        if (start < end){
+            int partitionIndex = partition(arr, start, end);
+            recurSort(arr, start, partitionIndex - 1);
+            recurSort(arr, partitionIndex + 1, end);
         }
     }
+    public void sort(Integer[] arr){
+        recurSort(arr, 0, arr.length - 1);
+    }
+
 }
