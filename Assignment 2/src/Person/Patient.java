@@ -12,14 +12,14 @@ public class Patient extends Person {
     private Doctor doctor;
     private Department department;
     private Integer floorNumber;
+    private boolean critical = false;
     public Patient(String fn, String ln, Integer age,
-                   Character s, String symptoms,
+                   Character s,
                    Doctor doctor, Department department, Integer floor) {
         /*Description: Child of Person Class. This class is used for most lookups to determine doctor and nurse
         *
         * */
         super(fn, ln, age, s);
-        this.symptoms = symptoms;
         this.doctor = doctor;
         this.department = department;
         this.floorNumber = floor;
@@ -27,18 +27,29 @@ public class Patient extends Person {
     }
 
 
+
+
+
     @Override
     public String getName() {
         return "(patient)" + super.getName();
     }
 
-    public Boolean scheduleAppointment(Integer month, Integer day){
-        Appointment app = new Appointment(this, month, day);
-        if (app.getMonth() != null){
-            this.getDoctor().addAppointment(app);
-            return true;
-        }
-        return  false;
+    @Override
+    public String toString(){return this.getName();}
+
+    public void setSymptoms(String symptoms){
+        this.symptoms = symptoms;
+    }
+    public String getSymptoms(){
+        return this.symptoms;
+    }
+
+    public void setCritical(boolean critical){
+        this.critical = critical;
+    }
+    public boolean getCritical(){
+        return this.critical;
     }
 
     /*getter/setter functions*/

@@ -1,6 +1,8 @@
 package Location;
 
+import Person.Doctor;
 import Person.Patient;
+import Scheduling.Appointment;
 import Scheduling.DailySchedule;
 import Location.Hospital;
 
@@ -9,7 +11,6 @@ public class Department {
     private Hospital hospital;
     private String name;
     private Integer floors;
-    private ArrayList<DailySchedule> staff;
 
     public Department(Hospital hospital, String name, Integer floors){
         this.hospital = hospital;
@@ -28,7 +29,6 @@ public class Department {
     }
 
     public ArrayList<Patient> getPatientsByFloor(Integer floor) {
-
         if (floor < 0 || floor > this.floors){
             return null;
         }
@@ -43,6 +43,30 @@ public class Department {
         }
         return patientsOnFloor;
     }
+
+    public  ArrayList<Doctor> getDoctors(){
+        ArrayList<Doctor> depDoctors = new ArrayList<>();
+        ArrayList<Doctor> doctors = this.getHospital().getDoctors();
+        for (Doctor doctor: doctors){
+            if (doctor.getDepartment().equals(this)){
+                depDoctors.add(doctor);
+            }
+        }
+        return depDoctors;
+    }
+
+    public ArrayList<Doctor> getFreeDoctors(Patient patient, Integer month, Integer day) {
+        ArrayList<Doctor> depDoctors = this.getDoctors();
+        ArrayList<Doctor> freeDoctors = new ArrayList<>();
+
+        for (Doctor doctor : depDoctors) {
+            if (doctor.checkSchedule(patient, month, day)) {
+                freeDoctors.add(doctor);
+            }
+        }
+        return freeDoctors;
+    }
+
 
     /*getter/setter methods*/
     public Hospital getHospital(){

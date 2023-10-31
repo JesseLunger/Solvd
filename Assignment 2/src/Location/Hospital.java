@@ -14,7 +14,6 @@ public class Hospital {
     String name;
     ArrayList<Employee> employees = new ArrayList<>();
     Stack<Integer> getAvailableIDs = new Stack<>();
-
     ArrayList<Patient> patients = new ArrayList<>();
     Stack<Integer> getAvailablePtIds = new Stack<>();
 
@@ -97,17 +96,21 @@ public class Hospital {
         * Args: employee: Child of person Class (see in Person Package)
         * */
 
+        if (employee instanceof Doctor && this.appByDoctors.containsKey(employee)) {
+            Doctor doctor = (Doctor)employee;
+            this.appByDoctors.remove(doctor);
+        }
+
         this.getAvailableIDs.push(employee.getId());
         this.employees.set(employee.getId(), null);
     }
-
-
-
+    
     public void setDepartments(Department[] depList){
         this.departments = depList;
     }
-
-
+    public Department[] getDepartments(){
+        return this.departments;
+    }
 
     public void prtEmployeeList(){
         ArrayList<String> tmp = new ArrayList<>();
@@ -129,11 +132,13 @@ public class Hospital {
         System.out.println(tmp);
     }
 
-    public Doctor[] getDoctors(){
-        Doctor[] doctorsArray = new Doctor[appByDoctors.size()];
+    public ArrayList<Doctor> getDoctors(){
+        ArrayList<Doctor> doctorsArray = new ArrayList<>();
         int index = 0;
         for (Doctor doctor : appByDoctors.keySet()) {
-            doctorsArray[index] = doctor;
+            if (doctor != null){
+                doctorsArray.add(doctor);
+            }
             index++;
         }
         return doctorsArray;
