@@ -41,6 +41,7 @@ public class Main {
         hos.prtEmployeeList();
 
         ArrayList<Patient> pats = hos.getPatients();
+        System.out.println(hos.toString());
 
         System.out.println( pats.get(0).scheduleAppointment((1), (20)));
         System.out.println( pats.get(0).scheduleAppointment((1), (20)));

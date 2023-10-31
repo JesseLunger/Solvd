@@ -97,8 +97,8 @@ public class Hospital {
         * Args: employee: Child of person Class (see in Person Package)
         * */
 
-        this.getAvailableIDs.push(employee.getID());
-        this.employees.set(employee.getID(), null);
+        this.getAvailableIDs.push(employee.getId());
+        this.employees.set(employee.getId(), null);
     }
 
 

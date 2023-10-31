@@ -15,6 +15,9 @@ public class Patient extends Person {
     public Patient(String fn, String ln, Integer age,
                    Character s, String symptoms,
                    Doctor doctor, Department department, Integer floor) {
+        /*Description: Child of Person Class. This class is used for most lookups to determine doctor and nurse
+        *
+        * */
         super(fn, ln, age, s);
         this.symptoms = symptoms;
         this.doctor = doctor;
@@ -38,6 +41,7 @@ public class Patient extends Person {
         return  false;
     }
 
+    /*getter/setter functions*/
     public void setId(Integer id){
         this.id = id;
     }

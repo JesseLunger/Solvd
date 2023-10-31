@@ -5,17 +5,12 @@ import Scheduling.DailySchedule;
 import Location.Hospital;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 public class Department {
-
     private Hospital hospital;
     private String name;
     private Integer floors;
     private ArrayList<DailySchedule> staff;
 
-    public String getName(){
-        return this.name;
-    }
     public Department(Hospital hospital, String name, Integer floors){
         this.hospital = hospital;
         this.name = name;
@@ -49,12 +44,17 @@ public class Department {
         return patientsOnFloor;
     }
 
+    /*getter/setter methods*/
     public Hospital getHospital(){
         return this.hospital;
     }
 
     public Integer getFloors(){
         return this.floors;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
 
