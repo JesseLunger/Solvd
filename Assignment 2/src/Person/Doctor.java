@@ -46,6 +46,9 @@ public class Doctor extends Employee{
         if (!patient.getCritical() && !patient.getDoctor().equals(this)) {
             return false;
         }
+        if (patient.getDepartment().atCapacity()){
+            return false;
+        }
         for (Appointment appointment : this.getAppointments()) {
             if (appointment.getDay().equals(day) && appointment.getMonth().equals(month)) {
                 return false;

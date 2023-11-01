@@ -15,15 +15,13 @@ public class Patient extends Person {
     private boolean critical = false;
     public Patient(String fn, String ln, Integer age,
                    Character s,
-                   Doctor doctor, Department department, Integer floor) {
+                   Doctor doctor, Department department) {
         /*Description: Child of Person Class. This class is used for most lookups to determine doctor and nurse
         *
         * */
         super(fn, ln, age, s);
         this.doctor = doctor;
         this.department = department;
-        this.floorNumber = floor;
-
     }
 
 
@@ -76,6 +74,9 @@ public class Patient extends Person {
     public Integer getFloorNumber(){
         return this.floorNumber;
     }
+    public void setFloorNumber(Integer floorNumber){
+        this.floorNumber = floorNumber;
+    };
 
 
 }

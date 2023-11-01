@@ -15,6 +15,9 @@ public class Nurse extends Employee{
         return "(nurse)" + super.getName();
     }
 
+    @Override
+    public String toString(){return this.getName();}
+
     public void setDepartmentFloor(Integer floor){
         this.departmentFloor = floor;
     }

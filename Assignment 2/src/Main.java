@@ -31,14 +31,19 @@ public class Main {
         ArrayList<Doctor> availableDoctors = hos.getDoctors();
 
         for (int i = 0; i < 100; i++) {
-            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()), departments[i % 4], i % departments[i % 4].getFloors());
+            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()), departments[i % 4]);
             hos.addPatient(tmp);
         }
         System.out.println("\nVerifying patients populated");
         hos.prtPatientList();
+        System.out.println("length: " + hos.getPatients().size());
 
         System.out.println("\nVerifying employee populated");
         hos.prtEmployeeList();
+        System.out.println("length doctors: " + hos.getDoctors().size());
+        System.out.println("length nurses: " + hos.getNurses().size());
+
+
 
         ArrayList<Patient> pats = hos.getPatients();
 
@@ -75,6 +80,24 @@ public class Main {
         System.out.println("freeDoc for Non-critical (1/30, pcp already scheduled): " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
         tmpPatient.setCritical(true);
         System.out.println("freeDoc for Critical: " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
+
+        System.out.println("\nVerifying getNurses: hos");
+        System.out.println(hos.getName()+ ": " + hos.getNurses());
+
+
+        Department er = departments[0];
+        System.out.println("\nVerifying getNurses: dep");
+        System.out.println(er.getName() + ": " + er.getNurses());
+
+        System.out.println("\nVerifying getNursesByFloor: dep and Patients do not exceed capacity by floor (1n to 4p)");
+        System.out.println(er.getName() +": numNurses floor 0: " + er.getNursesByFloor(0).size());
+        System.out.println(er.getName() +": numPatients floor 0: " + er.getPatientsByFloor(0).size());
+
+
+        
+
+
+
     }
 }
 

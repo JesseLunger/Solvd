@@ -2,6 +2,7 @@ package Location;
 
 import Person.Doctor;
 import Person.Employee;
+import Person.Nurse;
 import Person.Patient;
 import Location.Department;
 import Scheduling.Appointment;
@@ -37,21 +38,24 @@ public class Hospital {
         return this.name;
     }
 
-    public void addPatient(Patient patient){
+    public boolean addPatient(Patient patient){
         /*Description: Add employee using id's as the index into the employee array.
          *Also save potential ids not in use. Runtime O(1) Space O(2n)
          *
          * Args: employee: Child of person Class (see in Person Package)
          * */
-
+        if (!patient.getDepartment().addPatient(patient)){
+            return false;
+        }
         if (this.getAvailableIDs.isEmpty()){
             patient.setId(employees.size());
             this.patients.add(patient);
-        } else {
-            Integer next = this.getAvailablePtIds.pop();
-            patient.setId(next);
-            this.patients.set(next, patient);
+            return false;
         }
+        Integer next = this.getAvailablePtIds.pop();
+        patient.setId(next);
+        this.patients.set(next, patient);
+        return true;
     }
 
     public void removePatient(Patient patient){
@@ -60,7 +64,7 @@ public class Hospital {
          *
          * Args: employee: Child of person Class (see in Person Package)
          * */
-
+        patient.getDepartment().removePatient(patient);
         this.getAvailableIDs.push(patient.getId());
         this.employees.set(patient.getId(), null);
     }
@@ -79,6 +83,9 @@ public class Hospital {
         if (employee instanceof Doctor && !this.appByDoctors.containsKey(employee)){
             Doctor doctor = (Doctor)employee;
             this.appByDoctors.put(doctor, doctor.getAppointments());
+        }
+        if (employee instanceof Nurse){
+            employee.getDepartment().addNurse((Nurse)employee);
         }
         if (this.getAvailableIDs.isEmpty()){
             employee.setId(employees.size());
@@ -99,6 +106,9 @@ public class Hospital {
         if (employee instanceof Doctor && this.appByDoctors.containsKey(employee)) {
             Doctor doctor = (Doctor)employee;
             this.appByDoctors.remove(doctor);
+        }
+        if (employee instanceof Nurse){
+            employee.getDepartment().removeNurse((Nurse)employee);
         }
 
         this.getAvailableIDs.push(employee.getId());
@@ -130,6 +140,18 @@ public class Hospital {
             }
         }
         System.out.println(tmp);
+    }
+
+    public ArrayList<Nurse> getNurses(){
+        ArrayList<Nurse> nursesArray = new ArrayList<>();
+        int index = 0;
+        for (Employee employee : this.employees) {
+            if ( (employee != null) && (employee instanceof Nurse) ){
+                nursesArray.add((Nurse)employee);
+            }
+            index++;
+        }
+        return nursesArray;
     }
 
     public ArrayList<Doctor> getDoctors(){
