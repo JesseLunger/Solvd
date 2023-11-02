@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+        /*Description: Collection of simple test functions that help verify that class methods are
+        * working at intended
+        *
+        * Args: None
+        * */
 
         Hospital hos = new Hospital("saint jude");
 

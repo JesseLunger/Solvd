@@ -10,34 +10,25 @@ import Scheduling.Appointment;
 import java.util.*;
 
 public class Hospital {
+    /*Description: Hospital class the stores the primary data all other classes
+    *
+    * Args: name: string for name of hospital
+    * */
     String name;
     ArrayList<Employee> employees = new ArrayList<>();
-    Stack<Integer> getAvailableIDs = new Stack<>();
+    Stack<Integer> getAvailableEIds = new Stack<>();
     ArrayList<Patient> patients = new ArrayList<>();
-    Integer numPatients = 0;
     Stack<Integer> getAvailablePtIds = new Stack<>();
-
+    Integer numPatients = 0;
     HashMap<Doctor, ArrayList<Appointment>> appByDoctors= new HashMap<>();
     Department[] departments;
 
-    @Override
-    public String toString(){
-        return this.name;
-    }
     public Hospital(String name){
         this.name = name;
     }
 
-    public void prtDepartments(){
-        for (Department department: this.departments){
-            System.out.println(department.getName());
-        }
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getName(){
+    @Override
+    public String toString(){
         return this.name;
     }
 
@@ -50,11 +41,11 @@ public class Hospital {
         if (!patient.getDepartment().getFloors().addPatient(patient)){
             return false;
         }
-        if (this.getAvailableIDs.isEmpty()){
+        if (this.getAvailablePtIds.isEmpty()){
             patient.setId(patients.size());
             this.patients.add(patient);
         } else {
-            Integer next = this.getAvailableIDs.pop();
+            Integer next = this.getAvailablePtIds.pop();
             patient.setId(next);
             this.patients.set(next, patient);
         }
@@ -71,15 +62,10 @@ public class Hospital {
         if (patient.getAppointment() != null){
             patient.getDoctor().removeAppointment(patient.getAppointment());
         }
-        this.getAvailableIDs.push(patient.getId());
+        this.getAvailablePtIds.push(patient.getId());
         this.patients.set(patient.getId(), null);
 
     }
-
-    public ArrayList<Patient> getPatients(){
-        return this.patients;
-    }
-
 
     public void addEmployee(Employee employee){
         /*Description: Add employee using id's as the index into the employee array.
@@ -94,11 +80,11 @@ public class Hospital {
         if (employee instanceof Nurse){
             employee.getDepartment().getFloors().addNurse((Nurse)employee);
         }
-        if (this.getAvailableIDs.isEmpty()){
+        if (this.getAvailableEIds.isEmpty()){
             employee.setId(employees.size());
             this.employees.add(employee);
         }else {
-            Integer next = this.getAvailableIDs.pop();
+            Integer next = this.getAvailableEIds.pop();
             employee.setId(next);
             this.employees.set(next, employee);
         }
@@ -118,7 +104,7 @@ public class Hospital {
             employee.getDepartment().getFloors().removeNurse((Nurse)employee);
         }
 
-        this.getAvailableIDs.push(employee.getId());
+        this.getAvailableEIds.push(employee.getId());
         this.employees.set(employee.getId(), null);
     }
 
@@ -129,6 +115,7 @@ public class Hospital {
         return this.departments;
     }
 
+    //Debugging functions
     public void prtEmployeeList(){
         ArrayList<String> tmp = new ArrayList<>();
         for (Employee employee: this.employees){
@@ -149,7 +136,18 @@ public class Hospital {
         System.out.println(tmp);
     }
 
+    public void prtDepartments(){
+        for (Department department: this.departments){
+            System.out.println(department.getName());
+        }
+    }
+
+    //Getter/Setter functions
     public ArrayList<Nurse> getNurses(){
+        /*Decription: returns arrayList of nurses within hospital
+        *
+        * Args: None
+        * */
         ArrayList<Nurse> nursesArray = new ArrayList<>();
         int index = 0;
         for (Employee employee : this.employees) {
@@ -162,6 +160,10 @@ public class Hospital {
     }
 
     public ArrayList<Doctor> getDoctors(){
+        /*Description: returns ArrayList of doctors within hosptial
+        *
+        * Args: None
+        * */
         ArrayList<Doctor> doctorsArray = new ArrayList<>();
         int index = 0;
         for (Doctor doctor : appByDoctors.keySet()) {
@@ -171,6 +173,18 @@ public class Hospital {
             index++;
         }
         return doctorsArray;
+    }
+
+    public ArrayList<Patient> getPatients(){
+        return this.patients;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
 }

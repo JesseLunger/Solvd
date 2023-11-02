@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.spi.AbstractResourceBundleProvider;
 
 public class Floors {
+    /*Decription: Floor class that represents the floors in a department. The purpose
+    * of the class if for staff evenly distribute patients to nurses on given floors
+    *
+    * Args: floors: number of floors
+    *       patientToNurse: the maximum amount of patients a nurse can take care of, I use 4
+    *       numNursesArray: int array that keeps track of the number of nurses at each floor
+    *       numPatientArray: int array that keeps track of the number of patients at each floor
+    * */
     private Integer floors;
     private Integer patientToNurse;
     private Integer[] numNursesArray;
@@ -25,6 +33,10 @@ public class Floors {
     }
 
     public Integer numNurses(){
+        /*Description: returns the number of nurses total on all floors
+        *
+        * Args: none
+        * */
         Integer total = 0;
         for (Integer nurses: this.numNursesArray){
             total += nurses;
@@ -33,6 +45,10 @@ public class Floors {
     }
 
     public Integer numPatients(){
+        /*Decription: returns the number of patients on all floors
+        *
+        * Args: none
+        * */
         Integer total = 0;
         for (Integer patients: this.numPatientsArray){
             total += patients;
@@ -41,10 +57,18 @@ public class Floors {
     }
 
     public boolean atCapacity(){
+        /*Description: checks to see if the maximum nurse to patient ratio has been reached
+        *
+        * Args: None
+        * */
         return ( this.numPatients() > (this.numNurses() * this.patientToNurse) );
     }
 
     public boolean addPatient(Patient patient){
+        /*Decription: increments patients within class dataStructures
+        *
+        * Args: patient: see Person.Patient
+        * */
         Integer floor = this.patientFindFloor();
         if (floor == -1){
             return false;
@@ -54,15 +78,28 @@ public class Floors {
         return true;
     }
     public void removePatient(Patient patient){
+        /*Decription: decrements patients within class dataStructures
+        *
+        * Args: None
+        * */
         this.numPatientsArray[patient.getFloorNumber()] -= 1;
     }
 
     public void addNurse(Nurse nurse){
+        /*Description: increments nurses within class dataStructure
+        *
+        * Args: nurse: see package Person.Nurse nurse to be added
+        * */
         Integer floor = this.nurseFindFloor();
         this.numNursesArray[floor] += 1;
         nurse.setDepartmentFloor(floor);
     }
     public void removeNurse(Nurse nurse){
+        /*Description: decrements nurses within class datastruture, redivides patients to maintain nurst to patient ratio
+        *
+        * Args: nurse: see package Patient.Nurse nurse to be removed
+        *
+        * */
         this.numNursesArray[nurse.getDepartmentFloor()] -= 1;
         Integer difference = this.numPatientsArray[nurse.getDepartmentFloor()] - (this.numNursesArray[nurse.getDepartmentFloor()] * 4 );
         ArrayList<Patient> ptOnFloor = nurse.getDepartment().getPatientsByFloor(nurse.getDepartmentFloor());
@@ -75,14 +112,17 @@ public class Floors {
     }
 
     private Integer patientFindFloor(){
+        /*Decription: Much like a hashtable this uses load factor in the form of tmp to distribute patients
+        * evenly depending on nurse density by floor
+        *
+        * Args: None
+        * */
         if (this.atCapacity()){
             return -1;
         }
         Float minimum = 999999f;
         Integer index = 0;
         for (int i = 0; i < this.floors; i++){
-
-
             float tmp = ( ((float)this.numPatientsArray[i]) / (float) (this.numNursesArray[i]));
             if ( tmp < minimum ){
                 minimum = tmp;
@@ -93,6 +133,10 @@ public class Floors {
     }
 
     public Integer nurseFindFloor(){
+        /*Description: find floor with least amount of nurses
+        *
+        * Args: none
+        * */
         Integer index = 0;
         Integer minimum = 99999;
         Integer i = 0;
@@ -106,6 +150,7 @@ public class Floors {
         return index;
     }
 
+    //Getter/Setter functions
     public Integer getFloors() {
         return floors;
     }

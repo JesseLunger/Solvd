@@ -2,6 +2,11 @@ package Person;
 
 import Location.Department;
 public class Employee extends Person{
+    /*Description: child of the parent class Person found in package Person. This class
+    * is intended for employee of the hospital
+    *
+    * Args (not in Person): department: department in which the employee works in.
+    * */
     private Integer id;
     private Department department;
 

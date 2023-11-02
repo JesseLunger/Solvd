@@ -6,6 +6,12 @@ import Person.Patient;
 
 import java.util.ArrayList;
 public class Department {
+    /*Decription: Department class that represents the departments within a hospital
+    *
+    * Args: hosptial: Hospital class the department resides in
+    *       name: name of department
+    *       floors: number of floors within the department
+    * */
     private Hospital hospital;
     private String name;
     private Floors floors;
@@ -16,9 +22,7 @@ public class Department {
         this.floors = new Floors(floors, 4);
     }
 
-    public String getName(){
-        return this.name;
-    }
+
 
     @Override
     public String toString(){
@@ -26,6 +30,10 @@ public class Department {
     }
 
     public ArrayList<Patient> getPatients(){
+        /*Decription: returns arrayList of all patients with department class
+        *
+        * Args: none
+        * */
         ArrayList<Patient> patients = new ArrayList<>();
         for (Patient patient: hospital.getPatients()){
             if ((patient != null) && (patient.getDepartment().getName().equals(this.name))){
@@ -36,6 +44,10 @@ public class Department {
     }
 
     public ArrayList<Patient> getPatientsByFloor(Integer floor) {
+        /*Decription: returns an arrayList of patients within the department on a given floor
+        *
+         * Args: floor: integer for desired floor
+        * */
         ArrayList<Patient> patientsOnFloor = new ArrayList<>();
 
         if (floor < 0 || floor > this.floors.getFloors()){
@@ -52,22 +64,21 @@ public class Department {
         return patientsOnFloor;
     }
 
-    public ArrayList<Nurse> getNurses(){
-        ArrayList<Nurse> nurses = this.hospital.getNurses();
-        ArrayList<Nurse> depNurses = new ArrayList<>();
-        for (Nurse nurse: nurses){
-            if (nurse.getDepartment() == this){
-                depNurses.add(nurse);
-            }
-        }
-        return depNurses;
-    }
+
 
     public Integer numNurses(){
+        /*Description: returns the number of nurses within department class
+        *
+        * Args: none
+        * */
         return this.floors.numNurses();
     }
 
     public Integer numPatients(){
+        /*Decription: returns the number of patients within department class
+        *
+        * Args: none
+        * */
         return this.floors.numPatients();
     }
 
@@ -81,7 +92,23 @@ public class Department {
         return (this.floors.atCapacity());
     }
 
+    public ArrayList<Nurse> getNurses(){
+        /**/
+        ArrayList<Nurse> nurses = this.hospital.getNurses();
+        ArrayList<Nurse> depNurses = new ArrayList<>();
+        for (Nurse nurse: nurses){
+            if (nurse.getDepartment() == this){
+                depNurses.add(nurse);
+            }
+        }
+        return depNurses;
+    }
+
     public ArrayList<Nurse> getNursesByFloor(Integer floor){
+        /*Description: returns a list of nurses on a floor in a department
+        *
+        * Args: floor: integer for desired floor
+        * */
         ArrayList<Nurse> depNurses = new ArrayList<>();
 
         if (floor < 0 || floor > this.getNumFloors()){
@@ -97,11 +124,11 @@ public class Department {
         return depNurses;
     }
 
-
-
-
-
     public  ArrayList<Doctor> getDoctors(){
+        /*Description: returns Arraylist of Doctors within the department
+        *
+        * Args: None
+        * */
         ArrayList<Doctor> depDoctors = new ArrayList<>();
         ArrayList<Doctor> doctors = this.getHospital().getDoctors();
         for (Doctor doctor: doctors){
@@ -113,6 +140,12 @@ public class Department {
     }
 
     public ArrayList<Doctor> getFreeDoctors(Patient patient, Integer month, Integer day) {
+        /*Decription: returns avaiable doctors. List changes if patient is critical
+        *
+        *Args:  patient: see Person.Patient
+        *       month: integer from 1 - 12
+        *       day: Integer from 1-30
+        * */
         ArrayList<Doctor> depDoctors = this.getDoctors();
         ArrayList<Doctor> freeDoctors = new ArrayList<>();
 
@@ -124,13 +157,19 @@ public class Department {
         return freeDoctors;
     }
 
-
     /*getter/setter methods*/
+    public String getName(){
+        return this.name;
+    }
+
     public Hospital getHospital(){
         return this.hospital;
     }
 
-    public Floors getFloors(){return this.floors;}
+    public Floors getFloors(){
+        return this.floors;
+    }
+
     public Integer getNumFloors(){
         return this.floors.getFloors();
     }
