@@ -3,73 +3,32 @@ package Location;
 import Person.Doctor;
 import Person.Nurse;
 import Person.Patient;
-import Scheduling.Appointment;
-import Scheduling.DailySchedule;
-import Location.Hospital;
 
 import java.util.ArrayList;
 public class Department {
     private Hospital hospital;
     private String name;
-    private Integer floors;
-
-    private Integer[] numNursesArray;
-
-
-    private Integer[] numPatientsArray;
+    private Floors floors;
 
     public Department(Hospital hospital, String name, Integer floors){
         this.hospital = hospital;
         this.name = name;
-        this.floors = floors;
-        this.numNursesArray = new Integer[floors];
-        this.numPatientsArray = new Integer[floors];
-        for (int i = 0; i < floors; i++){
-            this.numPatientsArray[i] = 0;
-            this.numNursesArray[i] = 0;
-        }
+        this.floors = new Floors(floors, 4);
     }
 
-    public Boolean addPatient(Patient patient){
-        Integer avaialableFloor = this.findFloor();
-        if (avaialableFloor == -1){
-            return false;
-        }
-        patient.setFloorNumber(avaialableFloor);
-        this.numPatientsArray[avaialableFloor] += 1;
-        return true;
-    }
-    public void removePatient(Patient patient){
-        this.numPatientsArray[patient.getFloorNumber()] -= 1;
+    public String getName(){
+        return this.name;
     }
 
-    public void addNurse(Nurse nurse){
-        this.numNursesArray[nurse.getDepartmentFloor()] += 1;
+    @Override
+    public String toString(){
+        return this.getName();
     }
-
-    public void removeNurse(Nurse nurse){
-        this.numNursesArray[nurse.getDepartmentFloor()] -= 1;
-    }
-
-    public Integer findFloor(){
-        if (this.atCapacity()){
-            return -1;
-        }
-        for (int floor = 0; floor < this.floors; floor++){
-            if (this.numNursesArray[floor] * 4 >= this.numPatientsArray[floor] + 1){
-                return floor;
-            }
-        }
-        return -1;
-    }
-
-
-
 
     public ArrayList<Patient> getPatients(){
         ArrayList<Patient> patients = new ArrayList<>();
         for (Patient patient: hospital.getPatients()){
-            if (patient.getDepartment().getName().equals(this.name)){
+            if ((patient != null) && (patient.getDepartment().getName().equals(this.name))){
                 patients.add(patient);
             }
         }
@@ -79,7 +38,7 @@ public class Department {
     public ArrayList<Patient> getPatientsByFloor(Integer floor) {
         ArrayList<Patient> patientsOnFloor = new ArrayList<>();
 
-        if (floor < 0 || floor > this.floors){
+        if (floor < 0 || floor > this.floors.getFloors()){
             return patientsOnFloor;
         }
         ArrayList<Patient> patients = this.getPatients();
@@ -105,19 +64,11 @@ public class Department {
     }
 
     public Integer numNurses(){
-        Integer total = 0;
-        for (Integer num: this.numNursesArray){
-            total += num;
-        }
-        return total;
+        return this.floors.numNurses();
     }
 
     public Integer numPatients(){
-        Integer total = 0;
-        for (Integer num: this.numPatientsArray){
-            total += num;
-        }
-        return total;
+        return this.floors.numPatients();
     }
 
 
@@ -127,13 +78,13 @@ public class Department {
         *
         * Args: None
         * */
-        return ( (this.numNurses() * 4)  == this.numPatients() );
+        return (this.floors.atCapacity());
     }
 
     public ArrayList<Nurse> getNursesByFloor(Integer floor){
         ArrayList<Nurse> depNurses = new ArrayList<>();
 
-        if (floor < 0 || floor > this.getFloors()){
+        if (floor < 0 || floor > this.getNumFloors()){
             return depNurses;
         }
         ArrayList<Nurse> nurses = this.getNurses();
@@ -179,13 +130,12 @@ public class Department {
         return this.hospital;
     }
 
-    public Integer getFloors(){
-        return this.floors;
+    public Floors getFloors(){return this.floors;}
+    public Integer getNumFloors(){
+        return this.floors.getFloors();
     }
 
-    public String getName(){
-        return this.name;
-    }
+
 
 
 }

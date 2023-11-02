@@ -12,25 +12,24 @@ public class Patient extends Person {
     private Doctor doctor;
     private Department department;
     private Integer floorNumber;
+
+    private Appointment appointment;
     private boolean critical = false;
     public Patient(String fn, String ln, Integer age,
                    Character s,
-                   Doctor doctor, Department department) {
+                   Doctor doctor) {
         /*Description: Child of Person Class. This class is used for most lookups to determine doctor and nurse
         *
         * */
         super(fn, ln, age, s);
         this.doctor = doctor;
-        this.department = department;
+        this.department = doctor.getDepartment();
     }
-
-
-
 
 
     @Override
     public String getName() {
-        return "(patient)" + super.getName();
+        return "(patient: " +this.id+ ")" + super.getName();
     }
 
     @Override
@@ -70,6 +69,7 @@ public class Patient extends Person {
     public Department getDepartment(){
         return this.department;
     }
+    public void setDepartment(Department department){this.department = department;}
 
     public Integer getFloorNumber(){
         return this.floorNumber;
@@ -78,5 +78,10 @@ public class Patient extends Person {
         this.floorNumber = floorNumber;
     };
 
-
+    public Appointment getAppointment() {
+        return appointment;
+    }
+    public void setAppointment(Appointment app){
+        this.appointment = app;
+    }
 }

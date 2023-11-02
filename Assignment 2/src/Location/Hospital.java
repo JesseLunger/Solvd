@@ -6,21 +6,24 @@ import Person.Nurse;
 import Person.Patient;
 import Location.Department;
 import Scheduling.Appointment;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class Hospital {
     String name;
     ArrayList<Employee> employees = new ArrayList<>();
     Stack<Integer> getAvailableIDs = new Stack<>();
     ArrayList<Patient> patients = new ArrayList<>();
+    Integer numPatients = 0;
     Stack<Integer> getAvailablePtIds = new Stack<>();
 
     HashMap<Doctor, ArrayList<Appointment>> appByDoctors= new HashMap<>();
     Department[] departments;
 
+    @Override
+    public String toString(){
+        return this.name;
+    }
     public Hospital(String name){
         this.name = name;
     }
@@ -44,17 +47,17 @@ public class Hospital {
          *
          * Args: employee: Child of person Class (see in Person Package)
          * */
-        if (!patient.getDepartment().addPatient(patient)){
+        if (!patient.getDepartment().getFloors().addPatient(patient)){
             return false;
         }
         if (this.getAvailableIDs.isEmpty()){
-            patient.setId(employees.size());
+            patient.setId(patients.size());
             this.patients.add(patient);
-            return false;
+        } else {
+            Integer next = this.getAvailableIDs.pop();
+            patient.setId(next);
+            this.patients.set(next, patient);
         }
-        Integer next = this.getAvailablePtIds.pop();
-        patient.setId(next);
-        this.patients.set(next, patient);
         return true;
     }
 
@@ -64,9 +67,13 @@ public class Hospital {
          *
          * Args: employee: Child of person Class (see in Person Package)
          * */
-        patient.getDepartment().removePatient(patient);
+        patient.getDepartment().getFloors().removePatient(patient);
+        if (patient.getAppointment() != null){
+            patient.getDoctor().removeAppointment(patient.getAppointment());
+        }
         this.getAvailableIDs.push(patient.getId());
-        this.employees.set(patient.getId(), null);
+        this.patients.set(patient.getId(), null);
+
     }
 
     public ArrayList<Patient> getPatients(){
@@ -85,7 +92,7 @@ public class Hospital {
             this.appByDoctors.put(doctor, doctor.getAppointments());
         }
         if (employee instanceof Nurse){
-            employee.getDepartment().addNurse((Nurse)employee);
+            employee.getDepartment().getFloors().addNurse((Nurse)employee);
         }
         if (this.getAvailableIDs.isEmpty()){
             employee.setId(employees.size());
@@ -108,13 +115,13 @@ public class Hospital {
             this.appByDoctors.remove(doctor);
         }
         if (employee instanceof Nurse){
-            employee.getDepartment().removeNurse((Nurse)employee);
+            employee.getDepartment().getFloors().removeNurse((Nurse)employee);
         }
 
         this.getAvailableIDs.push(employee.getId());
         this.employees.set(employee.getId(), null);
     }
-    
+
     public void setDepartments(Department[] depList){
         this.departments = depList;
     }

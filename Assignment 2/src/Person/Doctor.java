@@ -27,7 +27,7 @@ public class Doctor extends Employee{
         *
         * Args: None
         * */
-        return "(doctor)" + super.getName();
+        return "(doctor: " +super.getId() + ")"  + super.getName();
     }
 
 
@@ -57,11 +57,6 @@ public class Doctor extends Employee{
         return true;
     }
 
-
-
-
-
-
     public Boolean addAppointment(Patient patient, Integer month, Integer day){
         /*Description: Add appointment using id's as the index into the appointments array.
          *Also save potential ids not in use. Runtime O(1) Space O(2n)
@@ -75,11 +70,14 @@ public class Doctor extends Employee{
         if (this.getAvailableAppID.isEmpty()){
             appointment.setId(appointments.size());
             this.appointments.add(appointment);
+            patient.setAppointment(appointment);
         }else {
             Integer next = this.getAvailableAppID.pop();
             appointment.setId(next);
             this.appointments.set(next, appointment);
+            patient.setAppointment(appointment);
         }
+        patient.getDepartment().getHospital().addPatient(patient);
         return true;
 
     }

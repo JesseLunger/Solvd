@@ -2,8 +2,9 @@
 import Person.*;
 import Location.*;
 import Scheduling.*;
-
+import Transport.*;
 import java.util.ArrayList;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -24,36 +25,24 @@ public class Main {
 
         Nurse[] nurses = new Nurse[400];
         for (int i = 0; i < 30; i++) {
-            nurses[i] = new Nurse("nurse", "" + i, i, 'f', departments[i % 4], i % departments[i % 4].getFloors());
+            nurses[i] = new Nurse("nurse", "" + i, i, 'f', departments[i % 4]);
             hos.addEmployee(nurses[i]);
         }
 
         ArrayList<Doctor> availableDoctors = hos.getDoctors();
 
-        for (int i = 0; i < 100; i++) {
-            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()), departments[i % 4]);
+        for (int i = 0; i < 70; i++) {
+            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()));
             hos.addPatient(tmp);
         }
         System.out.println("\nVerifying patients populated");
         hos.prtPatientList();
-        System.out.println("length: " + hos.getPatients().size());
+        System.out.println("patient length: " + hos.getPatients().size());
 
         System.out.println("\nVerifying employee populated");
         hos.prtEmployeeList();
         System.out.println("length doctors: " + hos.getDoctors().size());
         System.out.println("length nurses: " + hos.getNurses().size());
-
-
-
-        ArrayList<Patient> pats = hos.getPatients();
-
-        //Testing double schedule
-        System.out.println("\nVerifying cannot double schedule");
-        System.out.println("results of inital schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
-        System.out.println("results of 2ndary schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
-
-        System.out.println("\nVerifying Doctor for deparment: dep");
-        System.out.println("doctors in ER: " + departments[0].getDoctors());
 
         //Testing add remove
         System.out.println("\nTesting add/remove employee(Doctors): hos");
@@ -63,6 +52,23 @@ public class Main {
         tmpLength = hos.getDoctors().size();
         System.out.println("size after Removal: " + Integer.toString(tmpLength));
         hos.addEmployee(availableDoctors.get(0));
+
+
+
+        ArrayList<Patient> pats = hos.getPatients();
+        //Testing double schedule
+        System.out.println("\nVerifying cannot double schedule: doc");
+        System.out.println("results of inital schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
+        System.out.println("results of 2ndary schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
+
+        System.out.println("\nVerifying getDoctors for deparment: dep");
+        System.out.println("doctors in ER: " + departments[0].getDoctors());
+
+        System.out.println("\nVerifying getNurses for department: dep");
+        System.out.println("nurese in ER: " + departments[0].getNurses());
+
+        System.out.println("\nVerifying getPatients for department: dep");
+        System.out.println("patients in ER: " + departments[0].getPatients());
 
         System.out.println("\nVerifying getPatientsByFloor: dep");
         ArrayList<Patient> ptsByFloor = departments[0].getPatientsByFloor(0);
@@ -76,13 +82,10 @@ public class Main {
 
         System.out.println("\nVerifying freeDoctors after scheduling: dep");
         tmpPatient.setCritical(false);
-        System.out.println("Scheduling pt for 1/30 for pcp: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (30)));
+        System.out.println("Scheduling pt for 1/30 for pcp: "  + tmpPatient.getDoctor().addAppointment(pats.get(0), (1), (30)));
         System.out.println("freeDoc for Non-critical (1/30, pcp already scheduled): " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
         tmpPatient.setCritical(true);
         System.out.println("freeDoc for Critical: " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
-
-        System.out.println("\nVerifying getNurses: hos");
-        System.out.println(hos.getName()+ ": " + hos.getNurses());
 
 
         Department er = departments[0];
@@ -90,11 +93,32 @@ public class Main {
         System.out.println(er.getName() + ": " + er.getNurses());
 
         System.out.println("\nVerifying getNursesByFloor: dep and Patients do not exceed capacity by floor (1n to 4p)");
-        System.out.println(er.getName() +": numNurses floor 0: " + er.getNursesByFloor(0).size());
-        System.out.println(er.getName() +": numPatients floor 0: " + er.getPatientsByFloor(0).size());
+        for (int i = 0; i < er.getNumFloors(); i++){
+            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        }
+
+        hos.removePatient(tmpPatient);
+        System.out.println("\nVerifying getNursesByFloor after pt removal: floor");
+        for (int i = 0; i < er.getNumFloors(); i++){
+            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        }
+
+        hos.removeEmployee(er.getNurses().get(3));
+        System.out.println("\nVerifying remove nurse(floor 3) + pt redistribution: floor");
+        for (int i = 0; i < er.getNumFloors(); i++){
+            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        }
+
+        Ambulance ambulance = new Ambulance("333bbb");
+        Patient ambPat = new Patient("amb", "bulance", 22, 'f', hos.getDoctors().get(0));
+        ambulance.setPatient(ambPat);
+        ArrayList<Hospital> hospitals = new ArrayList<>();
+        hospitals.add(hos);
+
+        System.out.println("\nVerifying Ambulance can find hospital: amb");
+        System.out.println(ambulance.findHospital(hospitals, 4, 20));
 
 
-        
 
 
 
