@@ -1,10 +1,12 @@
-package Person;
+package person;
 
-import java.util.*;
-import Location.Department;
-import Scheduling.Appointment;
+import location.Department;
+import schedule.Appointment;
 
-public class Doctor extends Employee{
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class Doctor extends Employee {
     /* Description: class constructor for Doctor, does not require any additional parameters
      * beyond the parent class
      *
@@ -22,10 +24,10 @@ public class Doctor extends Employee{
     @Override
     public String getName() {
         /*Description: overriding from the parent Person.getName() to add in tittle
-        *
-        * Args: None
-        * */
-        return "(doctor: " +super.getId() + ")"  + super.getName();
+         *
+         * Args: None
+         * */
+        return "(doctor: " + super.getId() + ")" + super.getName();
     }
 
     public boolean checkSchedule(Patient patient, Integer month, Integer day) {
@@ -34,13 +36,13 @@ public class Doctor extends Employee{
          *
          * Args: patient: see package Person.Patient
          * */
-        if ((month < 0 || month > 13) || (day < 0 || day > 30) ){
+        if ((month < 0 || month > 13) || (day < 0 || day > 30)) {
             return false;
         }
         if (!patient.getCritical() && !patient.getDoctor().equals(this)) {
             return false;
         }
-        if (patient.getDepartment().atCapacity()){
+        if (patient.getDepartment().atCapacity()) {
             return false;
         }
         for (Appointment appointment : this.getAppointments()) {
@@ -51,7 +53,7 @@ public class Doctor extends Employee{
         return true;
     }
 
-    public Boolean addAppointment(Patient patient, Integer month, Integer day){
+    public Boolean addAppointment(Patient patient, Integer month, Integer day) {
         /*Description: Add appointment using id's as the index into the appointments array.
          *Also save potential ids not in use. Runtime O(1) Space O(2n)
          *
@@ -59,13 +61,13 @@ public class Doctor extends Employee{
          * */
         Appointment appointment = new Appointment(patient, month, day);
         if (appointment.getMonth() == null) {
-            return  false;
+            return false;
         }
-        if (this.getAvailableAppID.isEmpty()){
+        if (this.getAvailableAppID.isEmpty()) {
             appointment.setId(appointments.size());
             this.appointments.add(appointment);
             patient.setAppointment(appointment);
-        }else {
+        } else {
             Integer next = this.getAvailableAppID.pop();
             appointment.setId(next);
             this.appointments.set(next, appointment);
@@ -76,7 +78,7 @@ public class Doctor extends Employee{
 
     }
 
-    public void removeAppointment(Appointment appointment){
+    public void removeAppointment(Appointment appointment) {
         /*Description: Remove appointment while also saving index/id.
          *Runtime O(1) Space O(2n)
          *
@@ -93,23 +95,28 @@ public class Doctor extends Employee{
          *
          * Args: none
          * */
-        int result = 17;
-        result = 31 * result + this.getName().hashCode();
-        result = 31 * result + this.getClass().hashCode();
-        return result;
+        // I tried implementing this hash but my hash table was causing errors
+//        int result = 17;
+//        //getName includes ID
+//        result = 31 * result + this.getName().hashCode();
+//        return result;
+        return super.hashCode();
     }
 
     /*equals override*/
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         /*Description: override equals that checks for null, same class and equal hash function
          *
          * Args: obj: any object
          * */
-        if (obj == null || this.getClass() != obj.getClass() || this.hashCode() != obj.hashCode()){
+        if (this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+
+        Doctor otherDoctor = (Doctor) obj;
+        return this.hashCode() == otherDoctor.hashCode();
     }
 
     @Override
@@ -122,7 +129,7 @@ public class Doctor extends Employee{
     }
 
     /*getters*/
-    public ArrayList<Appointment> getAppointments(){
+    public ArrayList<Appointment> getAppointments() {
         return this.appointments;
     }
 

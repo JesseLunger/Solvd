@@ -1,18 +1,20 @@
+import location.Department;
+import location.Hospital;
+import person.Doctor;
+import person.Nurse;
+import person.Patient;
+import transport.Ambulance;
 
-import Person.*;
-import Location.*;
-import Scheduling.*;
-import Transport.*;
 import java.util.ArrayList;
 
 
 public class Main {
     public static void main(String[] args) {
         /*Description: Collection of simple test functions that help verify that class methods are
-        * working at intended
-        *
-        * Args: None
-        * */
+         * working at intended
+         *
+         * Args: None
+         * */
 
         Hospital hos = new Hospital("saint jude");
 
@@ -59,12 +61,11 @@ public class Main {
         hos.addEmployee(availableDoctors.get(0));
 
 
-
         ArrayList<Patient> pats = hos.getPatients();
         //Testing double schedule
         System.out.println("\nVerifying cannot double schedule: doc");
-        System.out.println("results of inital schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
-        System.out.println("results of 2ndary schedule: "  + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
+        System.out.println("results of inital schedule: " + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
+        System.out.println("results of 2ndary schedule: " + pats.get(0).getDoctor().addAppointment(pats.get(0), (1), (20)));
 
         System.out.println("\nVerifying getDoctors for deparment: dep");
         System.out.println("doctors in ER: " + departments[0].getDoctors());
@@ -87,7 +88,7 @@ public class Main {
 
         System.out.println("\nVerifying freeDoctors after scheduling: dep");
         tmpPatient.setCritical(false);
-        System.out.println("Scheduling pt for 1/30 for pcp: "  + tmpPatient.getDoctor().addAppointment(pats.get(0), (1), (30)));
+        System.out.println("Scheduling pt for 1/30 for pcp: " + tmpPatient.getDoctor().addAppointment(pats.get(0), (1), (30)));
         System.out.println("freeDoc for Non-critical (1/30, pcp already scheduled): " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
         tmpPatient.setCritical(true);
         System.out.println("freeDoc for Critical: " + tmpPatient.getDepartment().getFreeDoctors(tmpPatient, 1, 30));
@@ -98,20 +99,20 @@ public class Main {
         System.out.println(er.getName() + ": " + er.getNurses());
 
         System.out.println("\nVerifying getNursesByFloor: dep and Patients do not exceed capacity by floor (1n to 4p)");
-        for (int i = 0; i < er.getNumFloors(); i++){
-            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        for (int i = 0; i < er.getNumFloors(); i++) {
+            System.out.println(er.getName() + ": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :" + er.getNursesByFloor(i).size());
         }
 
         hos.removePatient(tmpPatient);
         System.out.println("\nVerifying getNursesByFloor after pt removal: floor");
-        for (int i = 0; i < er.getNumFloors(); i++){
-            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        for (int i = 0; i < er.getNumFloors(); i++) {
+            System.out.println(er.getName() + ": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :" + er.getNursesByFloor(i).size());
         }
 
         hos.removeEmployee(er.getNurses().get(3));
         System.out.println("\nVerifying remove nurse(floor 3) + pt redistribution: floor");
-        for (int i = 0; i < er.getNumFloors(); i++){
-            System.out.println(er.getName() +": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :"+ er.getNursesByFloor(i).size());
+        for (int i = 0; i < er.getNumFloors(); i++) {
+            System.out.println(er.getName() + ": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :" + er.getNursesByFloor(i).size());
         }
 
         Ambulance ambulance = new Ambulance("333bbb");
@@ -122,11 +123,6 @@ public class Main {
 
         System.out.println("\nVerifying Ambulance can find hospital: amb");
         System.out.println(ambulance.findHospital(hospitals, 4, 20));
-
-
-
-
-
     }
 }
 

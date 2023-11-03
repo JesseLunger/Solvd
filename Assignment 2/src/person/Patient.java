@@ -1,10 +1,9 @@
-package Person;
+package person;
 
 
-import Location.Department;
-import Location.Hospital;
-import Scheduling.Appointment;
-import java.security.PublicKey;
+import location.Department;
+import location.Hospital;
+import schedule.Appointment;
 
 public class Patient extends Person {
     /*Description: Child of Person Class. This class is used for most lookups to determine doctor and nurse
@@ -20,6 +19,7 @@ public class Patient extends Person {
 
     private Appointment appointment;
     private boolean critical = false;
+
     public Patient(String fn, String ln, Integer age,
                    Character s,
                    Doctor doctor) {
@@ -30,65 +30,76 @@ public class Patient extends Person {
 
     @Override
     public String getName() {
-        return "(patient: " +this.id+ ")" + super.getName();
+        return "(patient: " + this.id + ")" + super.getName();
     }
 
     @Override
-    public String toString(){return this.getName();}
-
-    //GetterSetter functions
-    public void setSymptoms(String symptoms){
-        this.symptoms = symptoms;
+    public String toString() {
+        return this.getName();
     }
-    public String getSymptoms(){
+
+    public String getSymptoms() {
         return this.symptoms;
     }
 
-    public void setCritical(boolean critical){
-        /*Decription: if pt is critical they are able to get an appointment with doctor their department
-        * that is not their pcp
-        *
-        * Args: critical: pt state, set to true of pt needs emergency treatment
-        * */
-        this.critical = critical;
+    //GetterSetter functions
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
     }
-    public boolean getCritical(){
+
+    public boolean getCritical() {
         return this.critical;
     }
 
-    /*getter/setter functions*/
-    public void setId(Integer id){
-        this.id = id;
+    public void setCritical(boolean critical) {
+        /*Decription: if pt is critical they are able to get an appointment with doctor their department
+         * that is not their pcp
+         *
+         * Args: critical: pt state, set to true of pt needs emergency treatment
+         * */
+        this.critical = critical;
     }
 
-    public Integer getId(){
+    public Integer getId() {
         return this.id;
     }
 
-    public Doctor getDoctor(){
+    /*getter/setter functions*/
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
         return this.doctor;
     }
 
-    public Hospital getHospital(){
+    public Hospital getHospital() {
         return this.department.getHospital();
     }
 
-    public Department getDepartment(){
+    public Department getDepartment() {
         return this.department;
     }
-    public void setDepartment(Department department){this.department = department;}
 
-    public Integer getFloorNumber(){
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Integer getFloorNumber() {
         return this.floorNumber;
     }
-    public void setFloorNumber(Integer floorNumber){
+
+    public void setFloorNumber(Integer floorNumber) {
         this.floorNumber = floorNumber;
-    };
+    }
+
+    ;
 
     public Appointment getAppointment() {
         return appointment;
     }
-    public void setAppointment(Appointment app){
+
+    public void setAppointment(Appointment app) {
         this.appointment = app;
     }
 }
