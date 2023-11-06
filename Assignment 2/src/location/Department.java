@@ -14,7 +14,6 @@ public class Department {
      *       floors: number of floors within the department
      * */
 
-
     private Hospital hospital;
     private String name;
     /*patientToNurse: the maximum amount of patients a nurse can take care of, I use 4*/
@@ -172,7 +171,7 @@ public class Department {
         return depNurses;
     }
 
-    private Integer patientFindFloor() {
+    public Integer patientFindFloor() {
         /*Decription: Much like a hashtable this uses load factor in the form of tmp to distribute patients
          * evenly depending on nurse density by floor
          *
@@ -184,7 +183,9 @@ public class Department {
         Float minimum = 999999f;
         Integer index = 0;
         for (int i = 0; i < this.getNumFloors(); i++) {
-            float tmp = (((float) this.floors[i].getNumPatients()) / (float) (this.floors[i].getNumNurses()));
+            float numPts = (float) this.floors[i].getNumPatients();
+            float numNurse = (float) this.floors[i].getNumNurses();
+            float tmp = (( numPts / numNurse));
             if (tmp < minimum) {
                 minimum = tmp;
                 index = i;
