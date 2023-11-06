@@ -10,8 +10,8 @@ public class Nurse extends Employee {
      * */
     private int departmentFloor;
 
-    public Nurse(String fn, String ln, Integer age, Character s, Department department) {
-        super(fn, ln, age, s, department); // Call the constructor of the superclass (Employee)
+    public Nurse(String fn, String ln, Integer age, Character s, Department department, Integer id) {
+        super(fn, ln, age, s, department, id); // Call the constructor of the superclass (Employee)
     }
 
     /*getter/setter methods*/

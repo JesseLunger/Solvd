@@ -21,11 +21,11 @@ public class Patient extends Person {
     private boolean critical = false;
 
     public Patient(String fn, String ln, Integer age,
-                   Character s,
-                   Doctor doctor) {
+                   Character s, Doctor doctor, Integer id) {
         super(fn, ln, age, s);
         this.doctor = doctor;
         this.department = doctor.getDepartment();
+        this.id = id;
     }
 
     @Override

@@ -1,4 +1,5 @@
 import location.Department;
+import location.Floor;
 import location.Hospital;
 import person.Doctor;
 import person.Nurse;
@@ -16,7 +17,7 @@ public class Main {
          * Args: None
          * */
 
-        Hospital hos = new Hospital("saint jude");
+        Hospital hos = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com");
 
         Department[] departments = new Department[4];
         departments[0] = new Department(hos, "ER", 5);
@@ -26,20 +27,20 @@ public class Main {
         hos.setDepartments(departments);
 
         for (int i = 0; i < 10; i++) {
-            Doctor doc = new Doctor("doc", "" + i, i, 'f', departments[i % 4]);
+            Doctor doc = new Doctor("doc", "" + i, i, 'f', departments[i % 4], hos.getNextIdEmp());
             hos.addEmployee(doc);
         }
 
         Nurse[] nurses = new Nurse[400];
         for (int i = 0; i < 30; i++) {
-            nurses[i] = new Nurse("nurse", "" + i, i, 'f', departments[i % 4]);
+            nurses[i] = new Nurse("nurse", "" + i, i, 'f', departments[i % 4], hos.getNextIdEmp());
             hos.addEmployee(nurses[i]);
         }
 
         ArrayList<Doctor> availableDoctors = hos.getDoctors();
 
         for (int i = 0; i < 70; i++) {
-            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()));
+            Patient tmp = new Patient("patient", "" + i, i, 'm', availableDoctors.get(i % availableDoctors.size()), hos.getNextIdPt());
             hos.addPatient(tmp);
         }
         System.out.println("\nVerifying patients populated");
@@ -102,7 +103,7 @@ public class Main {
         for (int i = 0; i < er.getNumFloors(); i++) {
             System.out.println(er.getName() + ": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :" + er.getNursesByFloor(i).size());
         }
-
+        
         hos.removePatient(tmpPatient);
         System.out.println("\nVerifying getNursesByFloor after pt removal: floor");
         for (int i = 0; i < er.getNumFloors(); i++) {
@@ -116,13 +117,16 @@ public class Main {
         }
 
         Ambulance ambulance = new Ambulance("333bbb");
-        Patient ambPat = new Patient("amb", "bulance", 22, 'f', hos.getDoctors().get(0));
+        Patient ambPat = new Patient("amb", "bulance", 22, 'f', hos.getDoctors().get(0), hos.getNextIdPt());
         ambulance.setPatient(ambPat);
         ArrayList<Hospital> hospitals = new ArrayList<>();
         hospitals.add(hos);
 
         System.out.println("\nVerifying Ambulance can find hospital: amb");
         System.out.println(ambulance.findHospital(hospitals, 4, 20));
+        for (int i = 0; i < er.getNumFloors(); i++) {
+            System.out.println(er.getName() + ": patients floor" + i + ": Patients:" + er.getPatientsByFloor(i).size() + ", Nurses :" + er.getNursesByFloor(i).size());
+        }
     }
 }
 

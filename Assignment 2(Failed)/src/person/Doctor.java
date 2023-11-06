@@ -15,8 +15,8 @@ public class Doctor extends Employee {
     ArrayList<Appointment> appointments = new ArrayList<>();
     Stack<Integer> getAvailableAppID = new Stack<>();
 
-    public Doctor(String fn, String ln, Integer age, Character s, Department dep) {
-        super(fn, ln, age, s, dep);
+    public Doctor(String fn, String ln, Integer age, Character s, Department dep, Integer id) {
+        super(fn, ln, age, s, dep, id);
     }
 
 
@@ -46,7 +46,7 @@ public class Doctor extends Employee {
             return false;
         }
         for (Appointment appointment : this.getAppointments()) {
-            if (appointment.getDay().equals(day) && appointment.getMonth().equals(month)) {
+            if (appointment != null && appointment.getDay().equals(day) && appointment.getMonth().equals(month)) {
                 return false;
             }
         }
@@ -95,12 +95,7 @@ public class Doctor extends Employee {
          *
          * Args: none
          * */
-        // I tried implementing this hash but my hash table was causing errors
-//        int result = 17;
-//        //getName includes ID
-//        result = 31 * result + this.getName().hashCode();
-//        return result;
-        return super.hashCode();
+        return 31 * 17 + this.getName().hashCode();
     }
 
     /*equals override*/

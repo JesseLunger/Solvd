@@ -184,7 +184,7 @@ public class Department {
         Integer index = 0;
         for (int i = 0; i < this.getNumFloors(); i++) {
             float numPts = (float) this.floors[i].getNumPatients();
-            float numNurse = (float) this.floors[i].getNumNurses();
+            float numNurse = (float)this.floors[i].getNumNurses();
             float tmp = (( numPts / numNurse));
             if (tmp < minimum) {
                 minimum = tmp;

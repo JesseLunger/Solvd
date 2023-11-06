@@ -2,7 +2,7 @@ package person;
 
 import location.Department;
 
-public class Employee extends Person {
+public abstract class Employee extends Person {
     /*Description: child of the parent class Person found in package Person. This class
      * is intended for employee of the hospital
      *
@@ -11,7 +11,7 @@ public class Employee extends Person {
     private Integer id;
     private Department department;
 
-    public Employee(String fn, String ln, Integer age, Character s, Department department) {
+    public Employee(String fn, String ln, Integer age, Character s, Department department, Integer id) {
         /*Description: Child of Person class, now requires department. ID is set using the
          * Hospital class using the below getters/setters.
          *
@@ -20,6 +20,7 @@ public class Employee extends Person {
          * */
         super(fn, ln, age, s); //super class Person
         this.department = department;
+        this.id = id;
     }
 
 
