@@ -1,8 +1,9 @@
 package person;
 
 import location.Department;
+import location.Hospital;
 
-public class Nurse extends Employee {
+public class Nurse extends Employee{
     /*Description: child class of Employee found in package Person. This class is used for employee who
      * are nurses
      *
@@ -36,4 +37,6 @@ public class Nurse extends Employee {
          * */
         this.departmentFloor = floor;
     }
+
+
 }

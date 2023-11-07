@@ -13,20 +13,20 @@ public class Main {
 
         /*Test for Selected Sort*/
         SelectionSort ss = new SelectionSort();
-        Integer[] ssarr = Arrays.copyOf(numbers, numbers.length);
-        ss.sort(ssarr);
-        System.out.println("Results from Selected Sort: " + Arrays.toString(ssarr));
+        Integer[] ssArr = Arrays.copyOf(numbers, numbers.length);
+        ss.sort(ssArr);
+        System.out.println("Results from Selected Sort: " + Arrays.toString(ssArr));
 
         /*Test for Merge Sort*/
-        MergeSort MS = new MergeSort();
-        Integer[] MSArr = Arrays.copyOf(numbers, numbers.length);
-        MS.sort(MSArr);
-        System.out.println("Results from Merge Sort: " + Arrays.toString(MSArr));
+        MergeSort ms = new MergeSort();
+        Integer[] msArr = Arrays.copyOf(numbers, numbers.length);
+        ms.sort(msArr);
+        System.out.println("Results from Merge Sort: " + Arrays.toString(msArr));
 
-        QuickSort QS = new QuickSort();
-        Integer[] QSArr = Arrays.copyOf(numbers, numbers.length);
-        QS.sort(QSArr);
-        System.out.println("Results from Quick Sort: " + Arrays.toString(QSArr));
+        QuickSort qs = new QuickSort();
+        Integer[] qsArr = Arrays.copyOf(numbers, numbers.length);
+        qs.sort(qsArr);
+        System.out.println("Results from Quick Sort: " + Arrays.toString(qsArr));
 
     }
 }
