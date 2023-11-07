@@ -1,6 +1,6 @@
 package person;
 
-public abstract class Person {
+public class Person {
     /*Description: Person class that all classes within package Person inherit from
      *
      * Args: fname: first name
@@ -8,10 +8,11 @@ public abstract class Person {
      *       age: age of person
      *       sex: sex of person
      * */
-    private final String fName;
-    private final String lName;
-    private Integer age;
-    private Character sex;
+    private String fName;
+    private String lName;
+    private final Integer age;
+    private final Character sex;
+    private Integer id;
 
     public Person(String fn, String ln, Integer age, Character s) {
         this.fName = fn;
@@ -20,8 +21,24 @@ public abstract class Person {
         this.sex = s;
     }
 
+    public void setfName(String name) {
+        this.fName = name;
+    }
+
+    public void setlName(String name) {
+        this.lName = name;
+    }
+
     public String getName() {
         return (this.fName + " " + this.lName);
+    }
+
+    public String getFName() {
+        return this.fName;
+    }
+
+    public String getLname() {
+        return this.lName;
     }
 
     @Override
@@ -29,16 +46,11 @@ public abstract class Person {
         return this.getName();
     }
 
-    public Integer getAge(){
+    public Integer getAge() {
         return this.age;
-    };
+    }
 
     public Character getSex() {
         return this.sex;
     }
-
-    public String doSomthing(){
-        return "";
-    }
-
 }

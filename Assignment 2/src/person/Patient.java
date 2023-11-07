@@ -1,22 +1,27 @@
 package person;
 
-import location.*;
+import location.Department;
+import location.Floor;
+import location.Hospital;
 import schedule.Appointment;
-import schedule.Appointment.*;
 
-import javax.print.Doc;
-
-public class Patient extends Person{
+public class Patient extends Person implements HospitalLocation {
+    /*Description: represents a Person who has been admited into a hospital as long as
+     * there was an available doctor to see them, and enough nurses on patients floor.
+     *
+     * args: hospital, department, floor: patient location in hospital
+     * */
 
     private Doctor doctor;
 
-    private Hospital hospital;
-    private Department department;
-    private Floor floor;
+    private final Hospital hospital;
+    private final Department department;
+    private final Floor floor;
     private int id;
 
 
     private Appointment appointment;
+
     public Patient(String fn, String ln, Integer age, Character s, Integer id, Hospital hospital, Department department, Floor floor, Doctor doc) {
         super(fn, ln, age, s);
         this.id = id;
@@ -27,52 +32,53 @@ public class Patient extends Person{
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return "(" + this.getId() + ") " + this.getFName() + " " + this.getLname();
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.getName();
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.getName().hashCode();
     }
 
-    public Integer getId(){
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Integer id){
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Doctor getDoctor(){
+    public Doctor getDoctor() {
         return this.doctor;
     }
-    public void setDoctor(Doctor doctor){
+
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 
-    public Appointment getAppointment(){
+    public Appointment getAppointment() {
         return this.appointment;
     }
-    public void setAppointment(Appointment app){
+
+    public void setAppointment(Appointment app) {
         this.appointment = app;
     }
 
-    public Hospital getHospital(){
+    public Hospital getHospital() {
         return this.hospital;
     }
-    public Department getDepartment(){
+
+    public Department getDepartment() {
         return this.department;
     }
 
-    public Floor getFloor(){
+    public Floor getFloor() {
         return this.floor;
     }
-
-
 }
