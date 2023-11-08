@@ -5,7 +5,7 @@ import person.Patient;
 
 import java.util.ArrayList;
 
-public class Floor {
+public class Floor implements IHasPersons{
     /*Description: floor class that contains data for patients and nurses within floor
      *
      * Args: floorNum: floor number used for the name of floor
@@ -40,15 +40,15 @@ public class Floor {
         return this.patients.remove(patient);
     }
 
-    public Integer numPatients() {
+    public int numPatients() {
         return this.patients.size();
     }
 
-    public Integer numNurses() {
+    public int numNurses() {
         return this.nurses.size();
     }
 
-    public Integer size() {
+    public int size() {
         return this.numNurses() + this.numPatients();
     }
 

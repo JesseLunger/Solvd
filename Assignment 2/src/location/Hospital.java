@@ -8,7 +8,7 @@ import person.Person;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Hospital extends Business {
+public class Hospital extends Business implements IHasPersons {
     private static final Stack<Integer> availableIds = new Stack<>();
     /*Description: Hospital class that contains data for the departments within it. It also
      * responsible for staff and pt admissions, supply a unique ids.

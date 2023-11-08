@@ -5,7 +5,7 @@ import location.Floor;
 import location.Hospital;
 import schedule.Appointment;
 
-public class Patient extends Person implements HospitalLocation {
+public class Patient extends Person implements IHospitalLocation {
     /*Description: represents a Person who has been admited into a hospital as long as
      * there was an available doctor to see them, and enough nurses on patients floor.
      *

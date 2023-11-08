@@ -84,11 +84,13 @@ public class Main {
         Person tmpPerson = persons.get(281);
         tmpPerson.setfName("rideOrDier");
         Ambulance ambulance = new Ambulance("333bbb", tmpPerson);
+        ambulance.addDriver();
+        ambulance.addDriver();
         ArrayList<Hospital> hospitals = new ArrayList<>();
         ambulance.addHosptial(hos);
 
         System.out.println("\nVerifying Ambulance can find hospital: amb");
-        System.out.println(ambulance.findHospital(4, 3, "night"));
+        ambulance.findHospital(4, 3, "night");
         for (Patient pt : departments[0].getPatients()) {
             if (pt.getFName().equals(tmpPerson.getFName()) && pt.getLname().equals(tmpPerson.getLname())) {
                 System.out.println(pt + ": department: " + pt.getDepartment() + ", floor: " + pt.getFloor() + ", doctor: " + pt.getDoctor());

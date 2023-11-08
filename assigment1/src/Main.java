@@ -27,6 +27,5 @@ public class Main {
         Integer[] qsArr = Arrays.copyOf(numbers, numbers.length);
         qs.sort(qsArr);
         System.out.println("Results from Quick Sort: " + Arrays.toString(qsArr));
-
     }
 }

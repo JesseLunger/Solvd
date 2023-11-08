@@ -11,15 +11,18 @@ public final class Nurse extends Employee {
      *
      * Args: floor: the floor the nurse works on.
      * */
-    private final static int nurseToPatient = 4;
+    private final static int nurseToPatient;
     private Floor floor;
 
     public Nurse(String fn, String ln, Integer age, Character s, Integer id, Hospital hospital, Department department, Floor floor) {
         super(fn, ln, age, s, id, hospital, department);
         this.floor = floor;
     }
+    static {
+        nurseToPatient = 4;
+    }
 
-    public int getNurseToPatient() {
+    public static int getNurseToPatient() {
         return nurseToPatient;
     }
 

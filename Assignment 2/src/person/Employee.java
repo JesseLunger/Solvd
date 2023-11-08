@@ -3,7 +3,7 @@ package person;
 import location.Department;
 import location.Hospital;
 
-public abstract class Employee extends Person implements HospitalLocation {
+public abstract class Employee extends Person implements IHospitalLocation {
     /*Description: stores data of a hired personel at the hosptial. This includes the data of
      * its parent (Person) while also an assigned id and hospital/department.
      *

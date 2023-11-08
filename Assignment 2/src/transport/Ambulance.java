@@ -6,15 +6,29 @@ import person.Person;
 
 import java.util.ArrayList;
 
-public class Ambulance {
+public class Ambulance implements ICanTransport{
 
     private final String licence;
     ArrayList<Hospital> hospitals = new ArrayList<>();
     private Person person;
 
+    private Integer drivers = 0;
+
     public Ambulance(String licence, Person person) {
         this.licence = licence;
         this.person = person;
+    }
+
+    public boolean addDriver(){
+        if (this.drivers < 2){
+            this.drivers++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canDrive(){
+        return drivers == 2;
     }
 
     public String getLicence() {
@@ -34,10 +48,13 @@ public class Ambulance {
     }
 
     public boolean removeHosptial(Hospital hospital) {
-        return this.removeHosptial(hospital);
+        return this.hospitals.remove(hospital);
     }
 
     public boolean findHospital(int month, int day, String timeSlot) {
+        if (!this.canDrive()){
+            return false;
+        }
         for (Hospital hospital : this.hospitals) {
             for (Department department : hospital.getDepartments()) {
                 if (department.getName().equals("ER")) {

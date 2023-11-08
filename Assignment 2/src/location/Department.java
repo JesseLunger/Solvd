@@ -6,7 +6,7 @@ import person.Patient;
 
 import java.util.ArrayList;
 
-public class Department {
+public class Department implements IHasPersons {
     /*Description: class that contains data for doctors and floors within the department;
      *
      * Args: name: {"ER", "ICU", "NICU", "OR"}
