@@ -27,6 +27,7 @@ public class Ambulance implements ICanTransport{
         return false;
     }
 
+    @Override
     public boolean canDrive(){
         return drivers == 2;
     }
@@ -51,6 +52,7 @@ public class Ambulance implements ICanTransport{
         return this.hospitals.remove(hospital);
     }
 
+    @Override
     public boolean findHospital(int month, int day, String timeSlot) {
         if (!this.canDrive()){
             return false;

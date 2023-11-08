@@ -46,10 +46,12 @@ public class Hospital extends Business implements IHasPersons {
         return this.contactInfo;
     }
 
+    @Override
     public String getAddress() {
         return this.address;
     }
 
+    @Override
     public boolean atCapacity() {
         for (Department department : this.departments) {
             if (!department.atCapacity()) {

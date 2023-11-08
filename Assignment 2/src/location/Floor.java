@@ -48,6 +48,7 @@ public class Floor implements IHasPersons{
         return this.nurses.size();
     }
 
+    @Override
     public int size() {
         return this.numNurses() + this.numPatients();
     }

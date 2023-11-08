@@ -70,10 +70,12 @@ public class Patient extends Person implements IHospitalLocation {
         this.appointment = app;
     }
 
+    @Override
     public Hospital getHospital() {
         return this.hospital;
     }
 
+    @Override
     public Department getDepartment() {
         return this.department;
     }
