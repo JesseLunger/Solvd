@@ -12,16 +12,36 @@ public abstract class Employee extends Person implements IHospitalLocation {
      *       department: department of employee
      * */
 
-    private final Hospital hospital;
     private Department department;
 
     private int id;
 
-    public Employee(String fn, String ln, Integer age, Character s, Integer id, Hospital hospital, Department department) {
-        super(fn, ln, age, s);
+    public Employee(String fn, String ln, String dob, Character s, Integer id, Hospital hospital, Department department) {
+        super(fn, ln, dob, s);
         this.id = id;
-        this.hospital = hospital;
         this.department = department;
+    }
+
+
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+
+    @Override
+    public Department getDepartment() {
+        return this.department;
     }
 
     @Override
@@ -46,28 +66,4 @@ public abstract class Employee extends Person implements IHospitalLocation {
         }
         return obj.hashCode() == this.hashCode();
     }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public Hospital getHospital() {
-        return this.hospital;
-    }
-
-    @Override
-    public Department getDepartment() {
-        return this.department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-
 }

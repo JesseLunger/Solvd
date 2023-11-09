@@ -1,7 +1,11 @@
 package schedule;
 
 
+import person.Patient;
+
 import java.util.HashMap;
+import java.util.regex.PatternSyntaxException;
+
 public final class Appointment implements ICompareTime{
     /*Description: Appointment class that holds information of appointment time. Appointment
      * data is stored in Doctor class.
@@ -16,10 +20,13 @@ public final class Appointment implements ICompareTime{
 
     private final String timeSlot;
 
-    public Appointment(int day, int month, String timeSlot) {
+    private final Patient patient;
+
+    public Appointment(int day, int month, String timeSlot, Patient patient) {
         this.day = day;
         this.month = month;
         this.timeSlot = timeSlot;
+        this.patient = patient;
     }
 
     public int getDay() {
@@ -34,6 +41,8 @@ public final class Appointment implements ICompareTime{
         return this.timeSlot;
     }
 
+
+    /* need to be removed*/
     public boolean conflicts(Appointment otherApp){
         if (this.day == otherApp.getDay() && this.month == otherApp.month && this.timeSlot.equals(otherApp.timeSlot)){
             return true;

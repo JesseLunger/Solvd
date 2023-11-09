@@ -10,26 +10,25 @@ public class Ambulance implements ICanTransport{
 
     private final String licence;
     ArrayList<Hospital> hospitals = new ArrayList<>();
+    ArrayList<Person> drivers = new ArrayList<>();
     private Person person;
 
-    private Integer drivers = 0;
 
     public Ambulance(String licence, Person person) {
         this.licence = licence;
         this.person = person;
     }
 
-    public boolean addDriver(){
-        if (this.drivers < 2){
-            this.drivers++;
-            return true;
+    public boolean addDriver(Person person){
+        if (this.drivers.size() < 2){
+            return this.drivers.add(person);
         }
         return false;
     }
 
     @Override
     public boolean canDrive(){
-        return drivers == 2;
+        return drivers.size() == 2;
     }
 
     public String getLicence() {

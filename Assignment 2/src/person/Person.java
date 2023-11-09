@@ -10,14 +10,13 @@ public class Person {
      * */
     private String fName;
     private String lName;
-    private final Integer age;
+    private final String dob;
     private final Character sex;
-    private Integer id;
 
-    public Person(String fn, String ln, Integer age, Character s) {
+    public Person(String fn, String ln, String dob, Character s) {
         this.fName = fn;
         this.lName = ln;
-        this.age = age;
+        this.dob = dob;
         this.sex = s;
     }
 
@@ -46,8 +45,8 @@ public class Person {
         return this.getName();
     }
 
-    public Integer getAge() {
-        return this.age;
+    public String getDob() {
+        return this.dob;
     }
 
     public Character getSex() {

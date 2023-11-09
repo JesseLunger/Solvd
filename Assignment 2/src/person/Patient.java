@@ -22,8 +22,8 @@ public class Patient extends Person implements IHospitalLocation {
 
     private Appointment appointment;
 
-    public Patient(String fn, String ln, Integer age, Character s, Integer id, Hospital hospital, Department department, Floor floor, Doctor doc) {
-        super(fn, ln, age, s);
+    public Patient(String fn, String ln, String dob, Character s, Integer id, Hospital hospital, Department department, Floor floor, Doctor doc) {
+        super(fn, ln, dob, s);
         this.id = id;
         this.hospital = hospital;
         this.department = department;
@@ -54,13 +54,6 @@ public class Patient extends Person implements IHospitalLocation {
         this.id = id;
     }
 
-    public Doctor getDoctor() {
-        return this.doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
 
     public Appointment getAppointment() {
         return this.appointment;
@@ -70,17 +63,27 @@ public class Patient extends Person implements IHospitalLocation {
         this.appointment = app;
     }
 
-    @Override
-    public Hospital getHospital() {
-        return this.hospital;
-    }
 
-    @Override
-    public Department getDepartment() {
-        return this.department;
-    }
+//    public Doctor getDoctor() {
+//        return this.doctor;
+//    }
+//
+//    public void setDoctor(Doctor doctor) {
+//        this.doctor = doctor;
+//    }
 
-    public Floor getFloor() {
-        return this.floor;
-    }
+    /* redo interface*/
+//    @Override
+//    public Hospital getHospital() {
+//        return this.hospital;
+//    }
+//
+//    @Override
+//    public Department getDepartment() {
+//        return this.department;
+//    }
+
+//    public Floor getFloor() {
+//        return this.floor;
+//    }
 }
