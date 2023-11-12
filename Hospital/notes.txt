@@ -1,0 +1,39 @@
+    Andrey
+
+    I think I needed to be more direct last time we talked. You wanted a system with no upstream pointers as you consider them redundant.
+    This means that any find function requires me to:
+
+    a. Have access to root data.
+    b. Do a complete search on all data to find a match.
+
+    For instance, what I understood is if you want a hierarchy to maintain this structure (arrows represent pointers):
+    Hospital->Department(w/ Doctors)->Floor->(Patients/Nurses) with no upstream pointers
+
+    So if I were to attempt to remove a Patient from the hospital class. Rather than assigning a Patient an upstream floor pointer and doing:
+
+    patient.getFloor().remove(Patient).
+
+    I Instead must do:
+    for (Departments department: this.getDepartments()){
+        for (Floor floor: department.getFloors()){
+            for (Patient patient: floor.getPattients()){
+                if{
+                    pt == targetPatient{
+                        floor.remove(targetPatient)
+                    }
+                }
+            }
+        }
+    }
+
+    You also requested I move the list of nurses stored on my floor class to department. However,
+    because the floor class cannot have access to department class as its upstream, there is no way
+    for me to access nurse data if I made this change. This means I cannot know how many nurses are
+
+    Because of this reason I'm not sure how to proceed
+    on your previous request to move the nurse data to departments.
+
+    I also want to be clear, I blame myself for both not making my code clearer, and
+    my failure to explain my code. Futhermore, the approach you are suggesting is highly secure as
+    it would make it more difficult for a user to access data not intended for them. I may just have to accept
+    this would highly restrict the functionality of certain classes.

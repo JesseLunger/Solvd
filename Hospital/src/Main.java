@@ -45,7 +45,8 @@ public class Main {
         }
         System.out.println("\nVerifying doctors populated");
         System.out.println(hos.getDoctors());
-        System.out.println(hos.getDoctors().size());
+        System.out.println("Total nurses: " + hos.getDoctors().size());
+        System.out.println("Doctors in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getDoctors().size());
 
 
         for (int i = 0; i < 50; i++) {
@@ -54,8 +55,8 @@ public class Main {
         }
         System.out.println("\nVerifying nurses populated");
         System.out.println(hos.getNurses());
-        System.out.println(hos.getNurses().size());
-
+        System.out.println("Total nurses: " + hos.getNurses().size());
+        System.out.println("Nurses in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getNurseArray().size());
 
 
         for (int i = 0; i < 100; i++) {
@@ -70,7 +71,9 @@ public class Main {
 
         System.out.println("\nVerifying patients populated");
         System.out.println(hos.getPatients());
-        System.out.println(hos.getPatients().size());
+        System.out.println("Total patients: " + hos.getPatients().size());
+        System.out.println("Patients in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getPatients().size());
+
 
         Doctor tmpDoc = hos.getDoctors().get(0);
 
@@ -83,8 +86,10 @@ public class Main {
 
         System.out.println("\nVerifying pts & nurse distrubtion on floors)");
         for (Floor floor : hos.getDepartments().get(0).getFloors()) {
-            System.out.println("num pts: " + floor.getPatientCount() + ", num nurses: " + floor.getNurseCount());
+            System.out.println("num pts: " + floor.getPatientCount() + ", num nurses: " + hos.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
         }
+
+        System.out.println("\n nurse map" + hos.getDepartments().get(0).getNurseMap());
 
         Person driver1 = new Person("driver", "1", date, 'f');
         Person driver2 = new Person("driver", "2", date, 'f');
@@ -127,11 +132,10 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        hos.removePatient(tmpPatient);
+
         hos.removePatient(tmpPatient);
         hos.removePatient(tmpPatient);
 
-        System.out.println(hos.getPatients().contains(tmpPatient));
 
 
 

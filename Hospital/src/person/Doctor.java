@@ -10,9 +10,6 @@ import customExceptions.*;
 import java.util.ArrayList;
 import java.sql.Date;
 
-
-
-
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
     private static final Logger logger = LogManager.getLogger("file logger");
@@ -77,6 +74,16 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         } catch (AppointmentNotInList | AppointmentListEmpty e) {
             logger.error("Caught" + e + "exception during reschedule: " + e.getMessage());
         }
+        /*This is necessary because we cannot use any upstream pointers, only floor has access to patient data*/
+        for (Floor floor: this.getDepartment().getFloors()){
+            for (Patient patient: floor.getPatients()){
+                if (patient.equals(appointment.getPatient())){
+                    floor.removePatient(patient);
+                    break;
+                }
+            }
+        }
+
         return this.addAppointment(date, timeSlot, appointment.getPatient());
     }
 

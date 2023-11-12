@@ -33,6 +33,7 @@ public class Hospital extends Business implements IContainsPersonel {
         return total;
     }
 
+    /*Due to no upstream pointers we must search from the root*/
     public Floor findPatientFloor(Patient patient) throws PatientNotInHosptial {
         for (Department department: departments){
             for (Floor floor: department.getFloors()){
@@ -44,13 +45,9 @@ public class Hospital extends Business implements IContainsPersonel {
         throw new PatientNotInHosptial(patient + " not found");
     }
 
+
     public Floor findNurseFloor(Nurse nurse){
-        for (Floor floor: nurse.getDepartment().getFloors()){
-            if (floor.getNurses().contains(nurse)){
-                return floor;
-            }
-        }
-        return null;
+        return nurse.getDepartment().getFloors().get(nurse.getDepartment().getNurseMap().get(nurse));
     }
 
     public ArrayList<Department> getDepartments() {
@@ -72,11 +69,9 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public boolean addNurse(Nurse nurse) {
         Floor floor = nurse.getDepartment().nurseFindFloor();
-        if (floor == null) {
-            return false;
-        }
-        return floor.addNurse(nurse);
+        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
     }
+
 
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {
         if (!this.departments.contains(department) || department.atCapacity()) {
@@ -89,9 +84,7 @@ public class Hospital extends Business implements IContainsPersonel {
         return doctor.getDepartment().removeDoctor(doctor);
     }
 
-    public boolean removeNurse(Nurse nurse){
-        return findNurseFloor(nurse).removeNures(nurse);
-    }
+
 
     public boolean removePatient(Patient patient) {
         Floor floor = null;
@@ -120,7 +113,7 @@ public class Hospital extends Business implements IContainsPersonel {
     public ArrayList<Nurse> getNurses() {
         ArrayList<Nurse> allNurses = new ArrayList<>();
         for (Department department : this.departments) {
-            allNurses.addAll(department.getNurses());
+            allNurses.addAll(department.getNurseArray());
         }
         return allNurses;
     }

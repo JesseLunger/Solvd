@@ -8,14 +8,13 @@ public final class Nurse extends Employee {
     private final static int nurseToPatient;
     public Nurse(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
             super(firstName, lastName, dateOfBirth, sex, department);
-
         }
 
     static {
         nurseToPatient = 4;
     }
 
-    public static int getNurseToPatient() {
+    public int getNurseToPatient() {
         return nurseToPatient;
     }
 
