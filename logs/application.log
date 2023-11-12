@@ -1,0 +1,19 @@
+17:52:02.857 [main] ERROR person.Doctor - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+17:53:01.937 [main] ERROR person.Doctor - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+17:58:35.696 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:13:39.311 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:27:01.499 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:51:39.443 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:51:53.769 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:52:30.403 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+18:53:03.769 [main] ERROR file logger - Caught ItemNotInList exception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:19:27.151 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:19:40.737 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:21:25.760 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:28:55.700 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:29:11.701 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:30:14.882 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:30:25.834 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:31:53.769 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:32:33.814 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
+19:34:59.500 [main] ERROR file logger - CaughtcustomExceptions.AppointmentNotInList: Item not found: Appointment for: (Patient) ride orDieexception during reschedule: Item not found: Appointment for: (Patient) ride orDie
