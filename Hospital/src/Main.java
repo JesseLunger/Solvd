@@ -1,8 +1,13 @@
-import customExceptions.AppointmentNotInList;
-import customExceptions.AppointmentListEmpty;
+import customExceptions.AppointmentListEmptyException;
+import customExceptions.AppointmentNotInListException;
+import interfaces.IScheduler;
+import linkedList.LinkedList;
 import location.Department;
 import location.Floor;
 import location.Hospital;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
@@ -15,48 +20,41 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 public class Main {
-    private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger LOGGER = LogManager.getLogger("file logger");
 
     public static void main(String[] args) {
-//        logger.info("This is an info message.");
-//        logger.warn("This is a warning message.");
-//        logger.error("This is an error message.", new RuntimeException("Sample Exception"));
-//        logger.info("hello");
 
-        Hospital hos = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com");
+        Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com");
 
-        hos.addDepartment(new Department("ER", 5));
-        hos.addDepartment(new Department("ICU", 3));
-        hos.addDepartment(new Department("NICU", 2));
-        hos.addDepartment(new Department("OR", 4));
+        saintJudeHospital.addDepartment(new Department("ER", 5));
+        saintJudeHospital.addDepartment(new Department("ICU", 3));
+        saintJudeHospital.addDepartment(new Department("NICU", 2));
+        saintJudeHospital.addDepartment(new Department("OR", 4));
 
-        String[] timeSlots = {"morning", "evening", "night"};
-
+        String[] timeSlots = new String[3];
+        IScheduler.timeSlots.toArray(timeSlots);
 
         Date date = new java.sql.Date(System.currentTimeMillis());
 
         for (int i = 0; i < 30; i++) {
-            Doctor doctor = new Doctor("Doctor", "" + i, date, 'f', hos.getDepartments().get(i %4));
-            hos.addDoctor(doctor);
+            Doctor doctor = new Doctor("Doctor", "" + i, date, 'f', saintJudeHospital.getDepartments().get(i % 4));
+            saintJudeHospital.addDoctor(doctor);
         }
-        System.out.println("\nVerifying doctors populated");
-        System.out.println(hos.getDoctors());
-        System.out.println("Total nurses: " + hos.getDoctors().size());
-        System.out.println("Doctors in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getDoctors().size());
+        LOGGER.info("\nVerifying doctors populated");
+        LOGGER.info(saintJudeHospital.getDoctors());
+        LOGGER.info("Total nurses: " + saintJudeHospital.getDoctors().size());
+        LOGGER.info("Doctors in " + saintJudeHospital.getDepartments().get(2) + ": " + saintJudeHospital.getDepartments().get(2).getDoctors().size());
 
 
         for (int i = 0; i < 50; i++) {
-            Nurse nurse = new Nurse("Nurse", "" + i, date, 'm', hos.getDepartments().get(i % 4));
-            hos.addNurse(nurse);
+            Nurse nurse = new Nurse("Nurse", "" + i, date, 'm', saintJudeHospital.getDepartments().get(i % 4));
+            saintJudeHospital.addNurse(nurse);
         }
-        System.out.println("\nVerifying nurses populated");
-        System.out.println(hos.getNurses());
-        System.out.println("Total nurses: " + hos.getNurses().size());
-        System.out.println("Nurses in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getNurseArray().size());
+        LOGGER.info("\nVerifying nurses populated");
+        LOGGER.info(saintJudeHospital.getNurses());
+        LOGGER.info("Total nurses: " + saintJudeHospital.getNurses().size());
+        LOGGER.info("Nurses in " + saintJudeHospital.getDepartments().get(2) + ": " + saintJudeHospital.getDepartments().get(2).getNurseArray().size());
 
 
         for (int i = 0; i < 100; i++) {
@@ -66,30 +64,29 @@ public class Main {
             Calendar calendar = new GregorianCalendar(year, month, day);
             Date tmpDate = new java.sql.Date(calendar.getTimeInMillis());
             Patient patient = new Patient("Patient", "" + i, date, 'm', "headache");
-            hos.addPatient(patient, hos.getDepartments().get(i % 4), tmpDate, timeSlots[i % timeSlots.length]);
+            saintJudeHospital.addPatient(patient, saintJudeHospital.getDepartments().get(i % 4), tmpDate, timeSlots[i % timeSlots.length]);
         }
 
-        System.out.println("\nVerifying patients populated");
-        System.out.println(hos.getPatients());
-        System.out.println("Total patients: " + hos.getPatients().size());
-        System.out.println("Patients in " + hos.getDepartments().get(2) + ": " + hos.getDepartments().get(2).getPatients().size());
+        LOGGER.info("\nVerifying patients populated");
+        LOGGER.info(saintJudeHospital.getPatients());
+        LOGGER.info("Total patients: " + saintJudeHospital.getPatients().size());
+        LOGGER.info("Patients in " + saintJudeHospital.getDepartments().get(2) + ": " + saintJudeHospital.getDepartments().get(2).getPatients().size());
 
 
-        Doctor tmpDoc = hos.getDoctors().get(0);
+        Doctor tmpDoc = saintJudeHospital.getDoctors().get(0);
 
-        System.out.println("\nVerifying removeDoc: " + tmpDoc);
-        hos.removeDoctor(tmpDoc);
-        System.out.println("Hospital contains doctor after removal: " +hos.getDoctors().contains(tmpDoc));
-        hos.addDoctor(tmpDoc);
-        System.out.println("Hospital contains doctor after adding back: " +hos.getDoctors().contains(tmpDoc));
+        LOGGER.info("\nVerifying removeDoc: " + tmpDoc);
+        saintJudeHospital.removeDoctor(tmpDoc);
+        LOGGER.info("Hospital contains doctor after removal: " + saintJudeHospital.getDoctors().contains(tmpDoc));
+        saintJudeHospital.addDoctor(tmpDoc);
+        LOGGER.info("Hospital contains doctor after adding back: " + saintJudeHospital.getDoctors().contains(tmpDoc));
 
 
-        System.out.println("\nVerifying pts & nurse distrubtion on floors)");
-        for (Floor floor : hos.getDepartments().get(0).getFloors()) {
-            System.out.println("num pts: " + floor.getPatientCount() + ", num nurses: " + hos.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
+        LOGGER.info("\nVerifying pts & nurse distrubtion on floors)");
+        for (Floor floor : saintJudeHospital.getDepartments().get(0).getFloors()) {
+            LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
         }
 
-        System.out.println("\n nurse map" + hos.getDepartments().get(0).getNurseMap());
 
         Person driver1 = new Person("driver", "1", date, 'f');
         Person driver2 = new Person("driver", "2", date, 'f');
@@ -100,45 +97,51 @@ public class Main {
         ambulance.addDriver(driver2);
         ambulance.setPatient(tmpPatient);
         ArrayList<Hospital> hospitals = new ArrayList<>();
-        hospitals.add(hos);
+        hospitals.add(saintJudeHospital);
 
-        System.out.println("\nVerifying Ambulance can find hospital: amb");
+        LOGGER.info("\nVerifying Ambulance can find hospital: amb");
         ambulance.findHospital(hospitals, date, "night");
-        System.out.println(tmpPatient.getAppointment().getAppointmentInformation());
+        LOGGER.info(tmpPatient.getAppointment().getAppointmentInformation());
 
 
         Calendar calendar = new GregorianCalendar(2023, 11, 5);
         Date tmpDate = new java.sql.Date(calendar.getTimeInMillis());
         tmpPatient.getAppointment().reschedule(tmpDate, timeSlots[0]);
 
-        System.out.println("\nVerifying reschedule works");
-        System.out.println(tmpPatient.getAppointment().getAppointmentInformation());
+        LOGGER.info("\nVerifying reschedule works");
+        LOGGER.info(tmpPatient.getAppointment().getAppointmentInformation());
 
 
-        System.out.println("\nVerifying exception handling plus custom exception");
+        LOGGER.info("\nVerifying exception handling plus custom exception");
         Calendar fakeCalendar = new GregorianCalendar(1996, 24, 8);
         Date fakeDate = new java.sql.Date(calendar.getTimeInMillis());
         Appointment fakeAppointment = new Appointment(fakeDate, "night", tmpPatient, tmpDoc, "this is fake app");
         tmpDoc.reschedule(fakeAppointment, fakeDate, "night");
         try {
-            tmpDoc.removeAppointment(fakeAppointment);
-        } catch (AppointmentNotInList | AppointmentListEmpty e){
-            System.out.println(e.getMessage());
+            tmpDoc.removeAppointment(fakeAppointment); // should cause exception
+        } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
+
+            //do Nothing already handled
         }
 
-        try{
-            tmpDoc.removeAppointment(tmpDoc.getAppointments().get(0));
-        } catch (AppointmentNotInList | AppointmentListEmpty e){
-            System.out.println(e.getMessage());
+        try {
+            tmpDoc.removeAppointment(tmpDoc.getAppointments().get(0)); // should not cause exception
+        } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
+            LOGGER.info(e.getMessage());
         }
 
+        saintJudeHospital.removePatient(tmpPatient); // should not cause exception
+        saintJudeHospital.removePatient(tmpPatient); // should cause exception
 
-        hos.removePatient(tmpPatient);
-        hos.removePatient(tmpPatient);
-
-
-
-
+        /*while this seems work in main, when I incorporate this to my Floor class
+        * It makes mutliple instances of the linked list with different memory addresses
+        * Even though I declare it once as a class variable*/
+        LinkedList<Patient> patientLinkedList = new LinkedList<>();
+        ArrayList<Patient> mypatients = saintJudeHospital.getPatients();
+        for (int i = 0; i < 10; i++){
+            patientLinkedList.addItem(mypatients.get(i));
+        }
+        System.out.println(patientLinkedList.toArray());
     }
 }
 

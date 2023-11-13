@@ -1,34 +1,37 @@
 package person;
 
-import interfaces.*;
-import location.*;
+import customExceptions.AppointmentListEmptyException;
+import customExceptions.AppointmentNotInListException;
+import interfaces.IHospitalLocation;
+import interfaces.IScheduler;
+import location.Department;
+import location.Floor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import schedule.*;
-import customExceptions.*;
+import schedule.Appointment;
 
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
-    private static final Logger logger = LogManager.getLogger("file logger");
+    private static final Logger LOGGER = LogManager.getLogger();
+    private final ArrayList<Appointment> appointments = new ArrayList<>();
 
-    private ArrayList<Appointment> appointments = new ArrayList<>();
     public Doctor(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex, department);
     }
 
-    public ArrayList<Appointment> getAppointments(){
+    public ArrayList<Appointment> getAppointments() {
         return this.appointments;
     }
 
-    public boolean removeAppointment(Appointment appointment) throws AppointmentNotInList, AppointmentListEmpty {
+    public boolean removeAppointment(Appointment appointment) throws AppointmentNotInListException, AppointmentListEmptyException {
         if (!appointments.remove(appointment)) {
-            throw new AppointmentNotInList("Item not found: " + appointment);
+            throw new AppointmentNotInListException("Item not found: " + appointment);
         }
-        if (appointments.isEmpty()){
-            throw new AppointmentListEmpty(this + " has not appointments");
+        if (appointments.isEmpty()) {
+            throw new AppointmentListEmptyException(this + " has not appointments");
         }
         return true;
     }
@@ -41,24 +44,24 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
 
     @Override
     public boolean addAppointment(Date date, String timeSlot, Patient patient) {
-        if (date ==null || timeSlot == null){
+        if (date == null || timeSlot == null) {
             return false;
         }
         if (!(IScheduler.timeSlots.contains(timeSlot))) {
             return false;
         }
         Floor floor = this.getDepartment().patientFindFloor();
-        if (floor == null){
+        if (floor == null) {
             return false;
         }
         for (Appointment appointment : this.appointments) {
-            if (appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot) ) {
+            if (appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot)) {
                 return false;
             }
         }
         String appointmentInformation = "Patient: " + patient + ", Department: " + getDepartment() +
-                                    ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
-                                    + ", Date: " + date + ", TimeSlot: " + timeSlot;
+                ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
+                + ", Date: " + date + ", TimeSlot: " + timeSlot;
         Appointment newAppointment = new Appointment(date, timeSlot, patient, this, appointmentInformation);
         appointments.add(newAppointment);
         patient.setAppointment(newAppointment);
@@ -71,13 +74,13 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
     public boolean reschedule(Appointment appointment, Date date, String timeSlot) {
         try {
             removeAppointment(appointment);
-        } catch (AppointmentNotInList | AppointmentListEmpty e) {
-            logger.error("Caught" + e + "exception during reschedule: " + e.getMessage());
+        } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
+            LOGGER.error("Caught " + e + "exception during reschedule: " + e.getMessage());
         }
         /*This is necessary because we cannot use any upstream pointers, only floor has access to patient data*/
-        for (Floor floor: this.getDepartment().getFloors()){
-            for (Patient patient: floor.getPatients()){
-                if (patient.equals(appointment.getPatient())){
+        for (Floor floor : this.getDepartment().getFloors()) {
+            for (Patient patient : floor.getPatients()) {
+                if (patient.equals(appointment.getPatient())) {
                     floor.removePatient(patient);
                     break;
                 }
@@ -88,7 +91,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "(Doctor) " + super.toString();
     }
 }

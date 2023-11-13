@@ -1,11 +1,10 @@
 package person;
 
 import location.Department;
-import location.Hospital;
 
 import java.sql.Date;
 
-public abstract class Employee extends Person  {
+public abstract class Employee extends Person {
     private Department department;
 
     public Employee(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
@@ -13,13 +12,12 @@ public abstract class Employee extends Person  {
         this.department = department;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-
     public Department getDepartment() {
         return this.department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override

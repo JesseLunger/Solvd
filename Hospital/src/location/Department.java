@@ -1,6 +1,6 @@
 package location;
 
-import customExceptions.InvalidFloorNumber;
+import customExceptions.InvalidFloorNumberException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,12 +8,15 @@ import person.Doctor;
 import person.Nurse;
 import person.Patient;
 
-import java.util.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Department implements IContainsPersonel {
-    private static final Logger logger = LogManager.getLogger("console");
+    private static final Logger logger = LogManager.getLogger("console logger");
     private final String name;
     private final ArrayList<Floor> floors = new ArrayList<>();
     private final ArrayList<Doctor> doctors = new ArrayList<>();
@@ -26,7 +29,7 @@ public class Department implements IContainsPersonel {
         }
     }
 
-    public HashMap<Nurse, Integer> getNurseMap(){
+    public HashMap<Nurse, Integer> getNurseMap() {
         return this.nurses;
     }
 
@@ -34,27 +37,28 @@ public class Department implements IContainsPersonel {
         return new ArrayList<>(this.nurses.keySet());
     }
 
-    public double getFloorLoadFactor(int floor){
-        int capacity = 1;
+    public double getFloorLoadFactor(int floor) {
+        int capacity;
         try {
             capacity = this.getFloorCapacity(floor);
-            if (capacity == 0){
+            if (capacity == 0) {
                 return 1; // loadfactor of max capacity is 1
             }
-        } catch (InvalidFloorNumber e) {
+        } catch (InvalidFloorNumberException e) {
             logger.error(e.getMessage());
             return 1;
         }
-        int patientCount =  floors.get(floor).getPatientCount();
-        return  (double) patientCount / (double) capacity;
+        int patientCount = floors.get(floor).getPatientCount();
+        return (double) patientCount / (double) capacity;
 
     }
+
     public Floor nurseFindFloor() {
         return floors.stream()
                 .min(Comparator.comparingInt(floor -> {
                     try {
                         return getFloorCapacity(floor.getFloorNumber());
-                    } catch (InvalidFloorNumber e) {
+                    } catch (InvalidFloorNumberException e) {
                         logger.error(e.getMessage());
                         return Integer.MAX_VALUE;
                     }
@@ -62,13 +66,12 @@ public class Department implements IContainsPersonel {
                 .orElse(null);
     }
 
-
     public Floor patientFindFloor() {
         if (atCapacity()) {
             return null;
         }
         return floors.stream().min(Comparator.comparingDouble(
-                floor -> getFloorLoadFactor(floors.indexOf(floor))))
+                        floor -> getFloorLoadFactor(floors.indexOf(floor))))
                 .orElse(null);
     }
 
@@ -80,7 +83,7 @@ public class Department implements IContainsPersonel {
         return capacity;
     }
 
-    public int getNursesByFloorCount(int floorNumber){
+    public int getNursesByFloorCount(int floorNumber) {
         int count = 0;
         for (Map.Entry<Nurse, Integer> entry : this.nurses.entrySet()) {
             if (entry.getValue() == floorNumber) {
@@ -90,9 +93,9 @@ public class Department implements IContainsPersonel {
         return count;
     }
 
-    public int getFloorCapacity(int floorNumber) throws InvalidFloorNumber{
+    public int getFloorCapacity(int floorNumber) throws InvalidFloorNumberException {
         if (floorNumber < 0 || floorNumber >= this.getFloors().size()) {
-            throw new InvalidFloorNumber("Department->getFloorCapacity: Parameter out of range");
+            throw new InvalidFloorNumberException("Department->getFloorCapacity: Parameter out of range");
         }
         int capacity = 0;
         for (Map.Entry<Nurse, Integer> entry : this.nurses.entrySet()) {
@@ -107,7 +110,7 @@ public class Department implements IContainsPersonel {
         try {
             int result = getFloorCapacity(floor);
             return true;
-        } catch (InvalidFloorNumber e) {
+        } catch (InvalidFloorNumberException e) {
             logger.error(e.getMessage());
             return false;
         }
@@ -126,11 +129,11 @@ public class Department implements IContainsPersonel {
     }
 
     public boolean addPatient(Patient patient) {
-        if (atCapacity()){
+        if (atCapacity()) {
             return false;
         }
         Floor floor = patientFindFloor();
-        if (floor != null){
+        if (floor != null) {
             return floor.getPatients().add(patient);
         }
         return false;
@@ -139,8 +142,6 @@ public class Department implements IContainsPersonel {
     public boolean atCapacity() {
         return this.getCapacity() < this.getPatientCount();
     }
-
-
 
     public boolean removeNures(Nurse nurse) {
         return this.nurses.remove(nurse, -1);
@@ -153,8 +154,6 @@ public class Department implements IContainsPersonel {
     public ArrayList<Doctor> getDoctors() {
         return this.doctors;
     }
-
-
 
     public ArrayList<Patient> getPatients() {
         ArrayList<Patient> allDepartmentPatients = new ArrayList<>();
@@ -171,7 +170,7 @@ public class Department implements IContainsPersonel {
     public int getPersonelCount() {
         int total = 0;
         for (Floor floor : this.floors) {
-            total += floor.getPersonelCount();
+            total += floor.getPatientCount();
         }
         return total + this.doctors.size();
     }

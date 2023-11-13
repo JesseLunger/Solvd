@@ -1,12 +1,11 @@
 package location;
 
-import interfaces.IContainsPersonel;
-import person.Nurse;
 import person.Patient;
 
 import java.util.ArrayList;
+import linkedList.*;
 
-public class Floor  {
+public class Floor {
     private final Integer floorNumber;
     private final ArrayList<Patient> patients = new ArrayList<>();
 
@@ -14,7 +13,7 @@ public class Floor  {
         this.floorNumber = floorNum;
     }
 
-    public boolean addPatient(Patient patient){
+    public boolean addPatient(Patient patient) {
         return patients.add(patient);
     }
 
@@ -27,7 +26,7 @@ public class Floor  {
     }
 
     public ArrayList<Patient> getPatients() {
-        return this.patients;
+        return patients;
     }
 
     public int getFloorNumber() {
@@ -39,6 +38,4 @@ public class Floor  {
         return "" + this.floorNumber;
     }
 
-    public int getPersonelCount() {return this.getPatientCount();
-    }
 }

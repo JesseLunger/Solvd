@@ -1,7 +1,7 @@
 package location;
 
 
-import customExceptions.PatientNotInHosptial;
+import customExceptions.PatientNotInHosptialException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,11 +9,11 @@ import person.Doctor;
 import person.Nurse;
 import person.Patient;
 
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Hospital extends Business implements IContainsPersonel {
-    private static final Logger logger = LogManager.getLogger("root");
+    private static final Logger LOGGER = LogManager.getLogger("file logger");
     private final String name;
     private final String address;
     private final String contactInfo;
@@ -33,20 +33,18 @@ public class Hospital extends Business implements IContainsPersonel {
         return total;
     }
 
-    /*Due to no upstream pointers we must search from the root*/
-    public Floor findPatientFloor(Patient patient) throws PatientNotInHosptial {
-        for (Department department: departments){
-            for (Floor floor: department.getFloors()){
-                if (floor.getPatients().contains(patient)){
+    public Floor findPatientFloor(Patient patient) throws PatientNotInHosptialException {
+        for (Department department : departments) {
+            for (Floor floor : department.getFloors()) {
+                if (floor.getPatients().contains(patient)) {
                     return floor;
                 }
             }
         }
-        throw new PatientNotInHosptial(patient + " not found");
+        throw new PatientNotInHosptialException(patient + " not found");
     }
 
-
-    public Floor findNurseFloor(Nurse nurse){
+    public Floor findNurseFloor(Nurse nurse) {
         return nurse.getDepartment().getFloors().get(nurse.getDepartment().getNurseMap().get(nurse));
     }
 
@@ -61,7 +59,6 @@ public class Hospital extends Business implements IContainsPersonel {
     public boolean removeDepartment(Department department) {
         return this.departments.remove(department);
     }
-    
 
     public boolean addDoctor(Doctor doctor) {
         return doctor.getDepartment().addDoctor(doctor);
@@ -72,26 +69,23 @@ public class Hospital extends Business implements IContainsPersonel {
         return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
     }
 
-
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {
         if (!this.departments.contains(department) || department.atCapacity()) {
             return false;
         }
-        return  department.patientScheduleVisit(date, timeSlot, patient);
+        return department.patientScheduleVisit(date, timeSlot, patient);
     }
 
-    public boolean removeDoctor(Doctor doctor){
+    public boolean removeDoctor(Doctor doctor) {
         return doctor.getDepartment().removeDoctor(doctor);
     }
-
-
 
     public boolean removePatient(Patient patient) {
         Floor floor = null;
         try {
             floor = findPatientFloor(patient);
-        } catch (PatientNotInHosptial e) {
-            logger.error(e.getMessage());
+        } catch (PatientNotInHosptialException e) {
+            LOGGER.error(e.getMessage());
         } finally {
             if (floor != null) {
                 floor.removePatient(patient);
@@ -100,7 +94,6 @@ public class Hospital extends Business implements IContainsPersonel {
 
         return true;
     }
-
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> allDocs = new ArrayList<>();

@@ -1,20 +1,20 @@
 package person;
 
 import java.sql.Date;
+
 public class Person {
-    private String firstName;
-    private String lastName;
     private final Date dateOfBirth;
     private final Character sex;
     private final int id;
-
+    private String firstName;
+    private String lastName;
 
     public Person(String firstName, String lastName, Date dateOfBirth, Character sex) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.sex = sex;
-        this.id = (int)(Math.random() * 1000000000);
+        this.id = (int) (Math.random() * 1000000000);
     }
 
     public void setfName(String name) {
@@ -37,7 +37,9 @@ public class Person {
         return this.lastName;
     }
 
-    public int getId(){ return this.id;}
+    public int getId() {
+        return this.id;
+    }
 
     public Date getDob() {
         return this.dateOfBirth;
@@ -48,6 +50,7 @@ public class Person {
     }
 
     @Override
-    public String toString() {  return this.getName();
+    public String toString() {
+        return this.getName();
     }
 }
