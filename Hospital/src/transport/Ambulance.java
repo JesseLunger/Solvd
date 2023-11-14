@@ -1,6 +1,5 @@
 package transport;
 
-import customExceptions.AmbulancesContainsNoPatientException;
 import customExceptions.PatientNotInHosptialException;
 import interfaces.IAmbulance;
 import location.Department;
@@ -18,7 +17,7 @@ public class Ambulance implements IAmbulance {
     private static final Logger LOGGER = LogManager.getLogger("file logger");
 
     private final String licence;
-    private ArrayList<Person> drivers = new ArrayList<>();
+    private final ArrayList<Person> drivers = new ArrayList<>();
     private Patient patient;
 
     public Ambulance(String licence) {
@@ -26,7 +25,7 @@ public class Ambulance implements IAmbulance {
     }
 
     public Person getPatient() throws PatientNotInHosptialException {
-        if (patient == null){
+        if (patient == null) {
             throw new PatientNotInHosptialException("Ambulance: " + getLicence() + ", has no patient");
         }
         return this.patient;

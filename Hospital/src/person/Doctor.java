@@ -36,10 +36,9 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         return true;
     }
 
-
     @Override
     public String getLocation() {
-        return "" + this.getDepartment();
+        return "Department: " + this.getDepartment();
     }
 
     @Override

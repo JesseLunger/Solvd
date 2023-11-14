@@ -2,6 +2,7 @@ package schedule;
 
 import person.Doctor;
 import person.Patient;
+
 import java.sql.Date;
 
 public final class Appointment {

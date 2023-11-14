@@ -3,7 +3,6 @@ package person;
 import interfaces.IHospitalLocation;
 import schedule.Appointment;
 
-import java.security.PublicKey;
 import java.sql.Date;
 
 public final class Patient extends Person implements IHospitalLocation {
@@ -32,7 +31,7 @@ public final class Patient extends Person implements IHospitalLocation {
         this.symptoms = symptoms;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return appointment.getAppointmentInformation();
     }
 

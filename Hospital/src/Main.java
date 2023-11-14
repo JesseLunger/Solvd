@@ -5,7 +5,6 @@ import linkedList.LinkedList;
 import location.Department;
 import location.Floor;
 import location.Hospital;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Doctor;
@@ -134,11 +133,11 @@ public class Main {
         saintJudeHospital.removePatient(tmpPatient); // should cause exception
 
         /*while this seems work in main, when I incorporate this to my Floor class
-        * It makes mutliple instances of the linked list with different memory addresses
-        * Even though I declare it once as a class variable*/
+         * It makes mutliple instances of the linked list with different memory addresses
+         * Even though I declare it once as a class variable*/
         LinkedList<Patient> patientLinkedList = new LinkedList<>();
         ArrayList<Patient> mypatients = saintJudeHospital.getPatients();
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             patientLinkedList.addItem(mypatients.get(i));
         }
         System.out.println(patientLinkedList.toArray());

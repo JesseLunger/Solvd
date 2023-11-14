@@ -3,7 +3,6 @@ package location;
 import person.Patient;
 
 import java.util.ArrayList;
-import linkedList.*;
 
 public class Floor {
     private final Integer floorNumber;

@@ -16,6 +16,7 @@ import java.util.Map;
 
 
 public class Department implements IContainsPersonel {
+
     private static final Logger logger = LogManager.getLogger("console logger");
     private final String name;
     private final ArrayList<Floor> floors = new ArrayList<>();
