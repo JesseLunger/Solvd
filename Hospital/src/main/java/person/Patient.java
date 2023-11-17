@@ -47,6 +47,6 @@ public final class Patient extends Person implements IHospitalLocation {
 
     @Override
     public int hashCode() {
-        return (this.getId() + this.getName()).hashCode();
+        return (this.getID() + this.getName()).hashCode();
     }
 }

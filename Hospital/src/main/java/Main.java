@@ -1,10 +1,11 @@
-import customExceptions.AppointmentListEmptyException;
-import customExceptions.AppointmentNotInListException;
+import exceptions.AppointmentListEmptyException;
+import exceptions.AppointmentNotInListException;
 import interfaces.IScheduler;
 import linkedList.LinkedList;
 import location.Department;
 import location.Floor;
 import location.Hospital;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Doctor;
@@ -83,7 +84,7 @@ public class Main {
 
         LOGGER.info("\nVerifying pts & nurse distrubtion on floors)");
         for (Floor floor : saintJudeHospital.getDepartments().get(0).getFloors()) {
-            LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
+            LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFLOOR_NUMBER()));
         }
 
 
@@ -124,7 +125,7 @@ public class Main {
         }
 
         try {
-            tmpDoc.removeAppointment(tmpDoc.getAppointments().get(0)); // should not cause exception
+            tmpDoc.removeAppointment(tmpDoc.getAPPOINTMENTS().get(0)); // should not cause exception
         } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
             LOGGER.info(e.getMessage());
         }

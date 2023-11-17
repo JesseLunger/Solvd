@@ -1,6 +1,6 @@
 package location;
 
-import customExceptions.InvalidFloorNumberException;
+import exceptions.InvalidFloorNumberException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +8,7 @@ import person.Doctor;
 import person.Nurse;
 import person.Patient;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class Department implements IContainsPersonel {
 
-    private static final Logger logger = LogManager.getLogger("console logger");
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String name;
     private final ArrayList<Floor> floors = new ArrayList<>();
     private final ArrayList<Doctor> doctors = new ArrayList<>();
@@ -46,7 +47,7 @@ public class Department implements IContainsPersonel {
                 return 1; // loadfactor of max capacity is 1
             }
         } catch (InvalidFloorNumberException e) {
-            logger.error(e.getMessage());
+            LOGGER.error(e.getMessage());
             return 1;
         }
         int patientCount = floors.get(floor).getPatientCount();
@@ -58,9 +59,9 @@ public class Department implements IContainsPersonel {
         return floors.stream()
                 .min(Comparator.comparingInt(floor -> {
                     try {
-                        return getFloorCapacity(floor.getFloorNumber());
+                        return getFloorCapacity(floor.getFLOOR_NUMBER());
                     } catch (InvalidFloorNumberException e) {
-                        logger.error(e.getMessage());
+                        LOGGER.error(e.getMessage());
                         return Integer.MAX_VALUE;
                     }
                 }))
@@ -112,7 +113,7 @@ public class Department implements IContainsPersonel {
             int result = getFloorCapacity(floor);
             return true;
         } catch (InvalidFloorNumberException e) {
-            logger.error(e.getMessage());
+            LOGGER.error(e.getMessage());
             return false;
         }
     }
@@ -135,7 +136,7 @@ public class Department implements IContainsPersonel {
         }
         Floor floor = patientFindFloor();
         if (floor != null) {
-            return floor.getPatients().add(patient);
+            return floor.getPATIENTS().add(patient);
         }
         return false;
     }
@@ -159,7 +160,7 @@ public class Department implements IContainsPersonel {
     public ArrayList<Patient> getPatients() {
         ArrayList<Patient> allDepartmentPatients = new ArrayList<>();
         for (Floor floor : this.getFloors()) {
-            allDepartmentPatients.addAll(floor.getPatients());
+            allDepartmentPatients.addAll(floor.getPATIENTS());
         }
         return allDepartmentPatients;
     }

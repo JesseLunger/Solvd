@@ -1,7 +1,7 @@
 package interfaces;
 
-import customExceptions.AppointmentListEmptyException;
-import customExceptions.AppointmentNotInListException;
+import exceptions.AppointmentListEmptyException;
+import exceptions.AppointmentNotInListException;
 import person.Patient;
 import schedule.Appointment;
 

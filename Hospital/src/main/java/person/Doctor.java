@@ -1,7 +1,7 @@
 package person;
 
-import customExceptions.AppointmentListEmptyException;
-import customExceptions.AppointmentNotInListException;
+import exceptions.AppointmentListEmptyException;
+import exceptions.AppointmentNotInListException;
 import interfaces.IHospitalLocation;
 import interfaces.IScheduler;
 import location.Department;
@@ -10,27 +10,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import schedule.Appointment;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final ArrayList<Appointment> appointments = new ArrayList<>();
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
+    private final ArrayList<Appointment> APPOINTMENTS = new ArrayList<>();
 
     public Doctor(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex, department);
     }
 
-    public ArrayList<Appointment> getAppointments() {
-        return this.appointments;
+    public ArrayList<Appointment> getAPPOINTMENTS() {
+        return this.APPOINTMENTS;
     }
 
     public boolean removeAppointment(Appointment appointment) throws AppointmentNotInListException, AppointmentListEmptyException {
-        if (!appointments.remove(appointment)) {
+        if (!APPOINTMENTS.remove(appointment)) {
             throw new AppointmentNotInListException("Item not found: " + appointment);
         }
-        if (appointments.isEmpty()) {
+        if (APPOINTMENTS.isEmpty()) {
             throw new AppointmentListEmptyException(this + " has not appointments");
         }
         return true;
@@ -53,16 +54,16 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         if (floor == null) {
             return false;
         }
-        for (Appointment appointment : this.appointments) {
+        for (Appointment appointment : this.APPOINTMENTS) {
             if (appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot)) {
                 return false;
             }
         }
         String appointmentInformation = "Patient: " + patient + ", Department: " + getDepartment() +
-                ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
+                ", Floor: " + floor.getFLOOR_NUMBER() + ", Doctor: " + this
                 + ", Date: " + date + ", TimeSlot: " + timeSlot;
         Appointment newAppointment = new Appointment(date, timeSlot, patient, this, appointmentInformation);
-        appointments.add(newAppointment);
+        APPOINTMENTS.add(newAppointment);
         patient.setAppointment(newAppointment);
         floor.addPatient(patient);
         return true;
@@ -78,7 +79,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         }
         /*This is necessary because we cannot use any upstream pointers, only floor has access to patient data*/
         for (Floor floor : this.getDepartment().getFloors()) {
-            for (Patient patient : floor.getPatients()) {
+            for (Patient patient : floor.getPATIENTS()) {
                 if (patient.equals(appointment.getPatient())) {
                     floor.removePatient(patient);
                     break;

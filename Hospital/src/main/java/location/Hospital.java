@@ -1,7 +1,7 @@
 package location;
 
 
-import customExceptions.PatientNotInHosptialException;
+import exceptions.PatientNotInHosptialException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,11 +9,12 @@ import person.Doctor;
 import person.Nurse;
 import person.Patient;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class Hospital extends Business implements IContainsPersonel {
-    private static final Logger LOGGER = LogManager.getLogger("file logger");
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String name;
     private final String address;
     private final String contactInfo;
@@ -36,7 +37,7 @@ public class Hospital extends Business implements IContainsPersonel {
     public Floor findPatientFloor(Patient patient) throws PatientNotInHosptialException {
         for (Department department : departments) {
             for (Floor floor : department.getFloors()) {
-                if (floor.getPatients().contains(patient)) {
+                if (floor.getPATIENTS().contains(patient)) {
                     return floor;
                 }
             }
@@ -66,7 +67,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public boolean addNurse(Nurse nurse) {
         Floor floor = nurse.getDepartment().nurseFindFloor();
-        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
+        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFLOOR_NUMBER()) == null;
     }
 
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {

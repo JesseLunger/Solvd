@@ -54,6 +54,9 @@ public class LinkedList<T> {
         if (tail != null && tail.equals(node)){
             tail = node.getPrevious();
         }
+        if (head != null && head.equals(node)){
+            head = node.getNext();
+        }
         Node<T> previous = node.getPrevious();
         Node<T> next = node.getNext();
         if (previous != null) {
