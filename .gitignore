@@ -5,3 +5,4 @@ logs/
 *.iml
 *.jar
 target/
+Hosptial/*.jar
