@@ -1,7 +1,7 @@
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
 import interfaces.IScheduler;
-import linkedList.LinkedList;
+import linkedlist.LinkedList;
 import location.Department;
 import location.Floor;
 import location.Hospital;
@@ -24,6 +24,15 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger("file logger");
 
     public static void main(String[] args) {
+
+
+
+
+
+
+
+
+
 
         Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com");
 
