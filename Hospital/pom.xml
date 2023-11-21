@@ -40,8 +40,6 @@
             <version>3.2.2</version>
             <type>maven-plugin</type>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -103,16 +101,11 @@
                 </configuration>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
-                <configuration>
-                    <configLocation>${configStyleCheckerLocation}</configLocation>
-                </configuration>
             </plugin>
-
 
         </plugins>
     </build>
@@ -122,9 +115,6 @@
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
-                <configuration>
-                    <configLocation>${configStyleCheckerLocation}</configLocation>
-                </configuration>
             </plugin>
         </plugins>
     </reporting>
