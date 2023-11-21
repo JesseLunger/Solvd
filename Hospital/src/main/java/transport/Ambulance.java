@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class Ambulance implements IAmbulance {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-
     private final String licence;
     private final ArrayList<Person> drivers = new ArrayList<>();
     private Patient patient;

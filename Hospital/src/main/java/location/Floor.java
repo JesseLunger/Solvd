@@ -6,26 +6,26 @@ import java.util.ArrayList;
 
 public class Floor {
     private final Integer FLOOR_NUMBER;
-    private final ArrayList<Patient> PATIENTS = new ArrayList<>();
+    private ArrayList<Patient> patients = new ArrayList<>();
 
     public Floor(int floorNum) {
         this.FLOOR_NUMBER = floorNum;
     }
 
     public boolean addPatient(Patient patient) {
-        return PATIENTS.add(patient);
+        return patients.add(patient);
     }
 
     public boolean removePatient(Patient patient) {
-        return PATIENTS.remove(patient);
+        return patients.remove(patient);
     }
 
     public int getPatientCount() {
-        return this.PATIENTS.size();
+        return this.patients.size();
     }
 
-    public ArrayList<Patient> getPATIENTS() {
-        return PATIENTS;
+    public ArrayList<Patient> getPatients() {
+        return patients;
     }
 
     public int getFLOOR_NUMBER() {

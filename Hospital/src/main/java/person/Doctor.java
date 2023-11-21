@@ -79,7 +79,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         }
         /*This is necessary because we cannot use any upstream pointers, only floor has access to patient data*/
         for (Floor floor : this.getDepartment().getFloors()) {
-            for (Patient patient : floor.getPATIENTS()) {
+            for (Patient patient : floor.getPatients()) {
                 if (patient.equals(appointment.getPatient())) {
                     floor.removePatient(patient);
                     break;

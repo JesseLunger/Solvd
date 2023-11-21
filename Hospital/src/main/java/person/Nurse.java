@@ -21,7 +21,7 @@ public final class Nurse extends Employee implements IHospitalLocation {
         return NURSE_TO_PATIENT;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return "Deparment: " + this.getDepartment() + ", Floor: " + this.getDepartment().getNurseMap().get(this);
     }
 

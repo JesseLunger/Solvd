@@ -52,7 +52,6 @@ public class Department implements IContainsPersonel {
         }
         int patientCount = floors.get(floor).getPatientCount();
         return (double) patientCount / (double) capacity;
-
     }
 
     public Floor nurseFindFloor() {
@@ -136,7 +135,7 @@ public class Department implements IContainsPersonel {
         }
         Floor floor = patientFindFloor();
         if (floor != null) {
-            return floor.getPATIENTS().add(patient);
+            return floor.getPatients().add(patient);
         }
         return false;
     }
@@ -160,7 +159,7 @@ public class Department implements IContainsPersonel {
     public ArrayList<Patient> getPatients() {
         ArrayList<Patient> allDepartmentPatients = new ArrayList<>();
         for (Floor floor : this.getFloors()) {
-            allDepartmentPatients.addAll(floor.getPATIENTS());
+            allDepartmentPatients.addAll(floor.getPatients());
         }
         return allDepartmentPatients;
     }

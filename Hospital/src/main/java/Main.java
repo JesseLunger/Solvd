@@ -5,7 +5,6 @@ import linkedlist.LinkedList;
 import location.Department;
 import location.Floor;
 import location.Hospital;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Doctor;
@@ -24,15 +23,6 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger("file logger");
 
     public static void main(String[] args) {
-
-
-
-
-
-
-
-
-
 
         Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com");
 
@@ -142,15 +132,26 @@ public class Main {
         saintJudeHospital.removePatient(tmpPatient); // should not cause exception
         saintJudeHospital.removePatient(tmpPatient); // should cause exception
 
-        /*while this seems work in main, when I incorporate this to my Floor class
-         * It makes mutliple instances of the linked list with different memory addresses
-         * Even though I declare it once as a class variable*/
+        LOGGER.info("Vetting LinkedList");
         LinkedList<Patient> patientLinkedList = new LinkedList<>();
         ArrayList<Patient> mypatients = saintJudeHospital.getPatients();
         for (int i = 0; i < 10; i++) {
             patientLinkedList.addItem(mypatients.get(i));
         }
-        System.out.println(patientLinkedList.toArray());
+        LOGGER.info("getSize test result: " + ((patientLinkedList.toArray().size() == patientLinkedList.getSize()) ? "pass" : "fail"));
+        int previousSize = patientLinkedList.toArray().size();
+        patientLinkedList.removeIndex(0);
+        LOGGER.info("removeIndex test result: " + ((patientLinkedList.toArray().size() + 1 == previousSize) ? "pass" : "fail"));
+        Patient tmpPt = patientLinkedList.getItemAtIndex(0);
+        patientLinkedList.removeItem(tmpPt);
+        LOGGER.info("removeItem test result: " + (!patientLinkedList.contains(tmpPt) ? "pass" : "fail"));
+        LOGGER.info("getLast test result: " + ((patientLinkedList.getLast() == patientLinkedList.toArray().get(patientLinkedList.toArray().size() - 1)) ? "pass" : "fail"));
+        patientLinkedList.addAtIndex(7, tmpPt);
+        LOGGER.info("addAtIndex test result: " + ((patientLinkedList.getItemAtIndex(7) == tmpPt) ? "pass" : "fail"));
+        while (patientLinkedList.getSize() > 0) {
+            patientLinkedList.removeIndex(0);
+        }
+        LOGGER.info("emptying List result: " + ((patientLinkedList.toArray().size() == 0) ? "pass" : "fail"));
     }
 }
 
