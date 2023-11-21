@@ -124,7 +124,7 @@ public class Main {
         }
 
         try {
-            tmpDoc.removeAppointment(tmpDoc.getAPPOINTMENTS().get(0)); // should not cause exception
+            tmpDoc.removeAppointment(tmpDoc.getAppointments().get(0)); // should not cause exception
         } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
             LOGGER.info(e.getMessage());
         }

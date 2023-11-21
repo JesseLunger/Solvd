@@ -19,7 +19,6 @@ public class Hospital extends Business implements IContainsPersonel {
     private final String name;
     private final String address;
     private final String contactInfo;
-    //    private ArrayList<Department> departments = new ArrayList<>();
     private LinkedList<Department> departments = new LinkedList<>();
 
     public Hospital(String name, String address, String contactInfo) {

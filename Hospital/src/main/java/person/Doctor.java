@@ -17,21 +17,21 @@ import java.util.ArrayList;
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-    private final ArrayList<Appointment> APPOINTMENTS = new ArrayList<>();
+    private final ArrayList<Appointment> appointments = new ArrayList<>();
 
     public Doctor(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex, department);
     }
 
-    public ArrayList<Appointment> getAPPOINTMENTS() {
-        return this.APPOINTMENTS;
+    public ArrayList<Appointment> getAppointments() {
+        return this.appointments;
     }
 
     public boolean removeAppointment(Appointment appointment) throws AppointmentNotInListException, AppointmentListEmptyException {
-        if (!APPOINTMENTS.remove(appointment)) {
+        if (!appointments.remove(appointment)) {
             throw new AppointmentNotInListException("Item not found: " + appointment);
         }
-        if (APPOINTMENTS.isEmpty()) {
+        if (appointments.isEmpty()) {
             throw new AppointmentListEmptyException(this + " has not appointments");
         }
         return true;
@@ -54,7 +54,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         if (floor == null) {
             return false;
         }
-        for (Appointment appointment : this.APPOINTMENTS) {
+        for (Appointment appointment : this.appointments) {
             if (appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot)) {
                 return false;
             }
@@ -63,7 +63,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
                 ", Floor: " + floor.getFLOOR_NUMBER() + ", Doctor: " + this
                 + ", Date: " + date + ", TimeSlot: " + timeSlot;
         Appointment newAppointment = new Appointment(date, timeSlot, patient, this, appointmentInformation);
-        APPOINTMENTS.add(newAppointment);
+        appointments.add(newAppointment);
         patient.setAppointment(newAppointment);
         floor.addPatient(patient);
         return true;
