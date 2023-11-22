@@ -1,8 +1,7 @@
-
 out/
 .idea/
 logs/
 *.iml
-*.jar
+*.xml
+!pom.xml
 target/
-Hosptial/*.jar
