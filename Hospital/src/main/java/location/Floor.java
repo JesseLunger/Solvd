@@ -5,7 +5,7 @@ import person.Patient;
 import java.util.ArrayList;
 
 public class Floor {
-    private final Integer FLOOR_NUMBER;
+    private final int FLOOR_NUMBER;
     private ArrayList<Patient> patients = new ArrayList<>();
 
     public Floor(int floorNum) {
@@ -28,7 +28,7 @@ public class Floor {
         return patients;
     }
 
-    public int getFLOOR_NUMBER() {
+    public int getFloorNumber() {
         return this.FLOOR_NUMBER;
     }
 

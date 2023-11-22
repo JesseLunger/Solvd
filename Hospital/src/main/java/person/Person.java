@@ -45,7 +45,7 @@ public class Person {
         return this.DATE_OF_BIRTH;
     }
 
-    public Character getSEX() {
+    public Character getSex() {
         return this.SEX;
     }
 
