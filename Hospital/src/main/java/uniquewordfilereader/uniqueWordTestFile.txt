@@ -1,0 +1,49 @@
+Lecture 2-3
+
+1. Why do we need OOP? What problem does it solve?
+1- creates a framework to build an application.
+2- helps control access to information within data structures
+3- reduces the amount of code required by using things like inheritance and polymorphism.
+4-Can help with readability if implemented correctly
+5-Gives modularity to code so that it can be broken down into small parts, allowing it to more easily be used in team environments.
+
+
+2. What are the 3 main OOP approaches? : encapsulation, inheritance and polymorphism
+
+3. What is encapsulation? : the act of creating a block of code in which it can connect to outside objects, but objects created within the block cannot be accessed from the outside.
+
+4. What is inheritance? : Used for classes. It is the ability for one class to inherit data, variables and methods from another class.
+
+5. What is an abstract class? Abstract method? : An abstract class is a class that will not be implemented in the application, but used as a framework for other subclasses of it that are not abstract to inherit from.
+
+6. What is a constructor? Default constructor? Why do we need them?: Constructors are used for the creation of class when that class requires certain information to be built. A default constructor requires no information/parameters to be built.
+
+7. What modifiers do you know? What are the differences between them? :
+
+Access Modifiers: private, public, default, public
+non-Access Modifiers: static, final, abstract, transient, volatile
+
+
+8. What do you know about class Object? : Once created it becomes an object in memory. Class specific variables and function calls are kept in memory aswell.
+
+9. How does method hashcode connected with equals? Unlike other programing languages that use memory addresses to determine equality java uses the hash of those memory addresses or unique variables within the class itself. This reduced space for object comparisons and is more secure.
+
+10. What is the difference between Overloading and Overriding? : Overloading is when you have multiple functions with the same name, but differen’t numbers of parameters. Once a function is called, it finds the one that matches the given parameters.
+Overriding is when you change the function itself, this can include using portions of the old function and adding to it, or completely rewriting the initial function.
+
+11. What is an interface? And Interface is a contract that if a given class implements must use the functions within the Interface including parameters. This helps with function modularity as it guarantees classes will be able to communicate how expected, especially when there are multiple teams working together.
+
+12. What is static?: a Static object is one that exists within all classes that use it. Essentially it is stored in a separate area of memory from the class itself and the class and subclass get a pointer to it. If one class changes the variable, it changes for all class.
+
+13. Can we call non-static methods from static? Vice versa?: you can but it requires some trickery. You must create a static or non static method and then create another static or non static method, make a new class copy, and call the static in non static or visa versa. Essentially the nonstatic will use the information from the static to build a nonstatic.
+
+14. 6 differences between an abstract class and an interface? Yes: abstract classes are used for inheritance, subclasses of the abstract class do not need to override any of the functions. Meanwhile a interface is a contract that says a class must implement certain methods that take certain parameters.
+
+15. What is polymorphism? A concept that encapsulates the idea of both overloading and overriding.
+
+16. What is final? It is similar to const but has broader functionality in java. Final variables cannot be changed once set like conts, but final classes cannot be inherited. (Does not mean the class cannot be mutated)
+
+17. What is functional programming?
+Functional programming is the idea of using functions as objects.
+
+18. What are the differences between OOP and functional programming?

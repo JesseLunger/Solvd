@@ -68,7 +68,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public boolean addNurse(Nurse nurse) {
         Floor floor = nurse.getDepartment().nurseFindFloor();
-        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFLOOR_NUMBER()) == null;
+        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
     }
 
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {

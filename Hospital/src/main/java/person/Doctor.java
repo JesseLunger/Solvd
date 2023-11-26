@@ -60,7 +60,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
             }
         }
         String appointmentInformation = "Patient: " + patient + ", Department: " + getDepartment() +
-                ", Floor: " + floor.getFLOOR_NUMBER() + ", Doctor: " + this
+                ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
                 + ", Date: " + date + ", TimeSlot: " + timeSlot;
         Appointment newAppointment = new Appointment(date, timeSlot, patient, this, appointmentInformation);
         appointments.add(newAppointment);

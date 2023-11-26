@@ -13,7 +13,9 @@ import person.Patient;
 import person.Person;
 import schedule.Appointment;
 import transport.Ambulance;
+import uniquewordfilereader.FileReader;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,7 +85,7 @@ public class Main {
 
         LOGGER.info("\nVerifying pts & nurse distrubtion on floors)");
         for (Floor floor : saintJudeHospital.getDepartments().get(0).getFloors()) {
-            LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFLOOR_NUMBER()));
+            LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
         }
 
 
@@ -152,6 +154,14 @@ public class Main {
             patientLinkedList.removeIndex(0);
         }
         LOGGER.info("emptying List result: " + ((patientLinkedList.toArray().size() == 0) ? "pass" : "fail"));
+        try {
+            FileReader fileReader = new FileReader("./src/main/java/uniquewordfilereader/uniqueWordTestFile.txt");
+            fileReader.writeUniqueWordsToFile();
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }
 

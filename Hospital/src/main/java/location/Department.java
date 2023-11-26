@@ -58,7 +58,7 @@ public class Department implements IContainsPersonel {
         return floors.stream()
                 .min(Comparator.comparingInt(floor -> {
                     try {
-                        return getFloorCapacity(floor.getFLOOR_NUMBER());
+                        return getFloorCapacity(floor.getFloorNumber());
                     } catch (InvalidFloorNumberException e) {
                         LOGGER.error(e.getMessage());
                         return Integer.MAX_VALUE;
