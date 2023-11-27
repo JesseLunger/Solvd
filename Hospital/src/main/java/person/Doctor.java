@@ -1,7 +1,7 @@
 package person;
 
-import customExceptions.AppointmentListEmptyException;
-import customExceptions.AppointmentNotInListException;
+import exceptions.AppointmentListEmptyException;
+import exceptions.AppointmentNotInListException;
 import interfaces.IHospitalLocation;
 import interfaces.IScheduler;
 import location.Department;
@@ -10,12 +10,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import schedule.Appointment;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final ArrayList<Appointment> appointments = new ArrayList<>();
 
     public Doctor(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
@@ -59,7 +60,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
             }
         }
         String appointmentInformation = "Patient: " + patient + ", Department: " + getDepartment() +
-                ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
+                ", Floor: " + floor.getFLOOR_NUMBER() + ", Doctor: " + this
                 + ", Date: " + date + ", TimeSlot: " + timeSlot;
         Appointment newAppointment = new Appointment(date, timeSlot, patient, this, appointmentInformation);
         appointments.add(newAppointment);

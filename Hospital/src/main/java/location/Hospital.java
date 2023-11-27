@@ -1,23 +1,25 @@
 package location;
 
 
-import customExceptions.PatientNotInHosptialException;
+import exceptions.PatientNotInHosptialException;
 import interfaces.IContainsPersonel;
+import linkedlist.LinkedList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class Hospital extends Business implements IContainsPersonel {
-    private static final Logger LOGGER = LogManager.getLogger("file logger");
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String name;
     private final String address;
     private final String contactInfo;
-    private final ArrayList<Department> departments = new ArrayList<>();
+    private LinkedList<Department> departments = new LinkedList<>();
 
     public Hospital(String name, String address, String contactInfo) {
         this.name = name;
@@ -27,14 +29,14 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public int getPersonelCount() {
         int total = 0;
-        for (Department department : this.departments) {
+        for (Department department : this.departments.toArray()) {
             total += department.getPersonelCount();
         }
         return total;
     }
 
     public Floor findPatientFloor(Patient patient) throws PatientNotInHosptialException {
-        for (Department department : departments) {
+        for (Department department : departments.toArray()) {
             for (Floor floor : department.getFloors()) {
                 if (floor.getPatients().contains(patient)) {
                     return floor;
@@ -49,15 +51,15 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public ArrayList<Department> getDepartments() {
-        return this.departments;
+        return this.departments.toArray();
     }
 
     public boolean addDepartment(Department department) {
-        return this.departments.add(department);
+        return this.departments.addItem(department);
     }
 
     public boolean removeDepartment(Department department) {
-        return this.departments.remove(department);
+        return this.departments.removeItem(department);
     }
 
     public boolean addDoctor(Doctor doctor) {
@@ -66,7 +68,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public boolean addNurse(Nurse nurse) {
         Floor floor = nurse.getDepartment().nurseFindFloor();
-        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
+        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFLOOR_NUMBER()) == null;
     }
 
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {
@@ -97,7 +99,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> allDocs = new ArrayList<>();
-        for (Department department : this.departments) {
+        for (Department department : this.departments.toArray()) {
             allDocs.addAll(department.getDoctors());
         }
         return allDocs;
@@ -105,7 +107,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public ArrayList<Nurse> getNurses() {
         ArrayList<Nurse> allNurses = new ArrayList<>();
-        for (Department department : this.departments) {
+        for (Department department : this.departments.toArray()) {
             allNurses.addAll(department.getNurseArray());
         }
         return allNurses;
@@ -113,7 +115,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     public ArrayList<Patient> getPatients() {
         ArrayList<Patient> allPatients = new ArrayList<>();
-        for (Department department : this.departments) {
+        for (Department department : this.departments.toArray()) {
             allPatients.addAll(department.getPatients());
         }
         return allPatients;
@@ -136,7 +138,7 @@ public class Hospital extends Business implements IContainsPersonel {
 
     @Override
     public boolean atCapacity() {
-        for (Department department : this.departments) {
+        for (Department department : this.departments.toArray()) {
             if (!department.atCapacity()) {
                 return false;
             }

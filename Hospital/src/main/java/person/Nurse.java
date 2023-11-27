@@ -7,10 +7,10 @@ import java.sql.Date;
 
 public final class Nurse extends Employee implements IHospitalLocation {
 
-    private final static int nurseToPatient;
+    private final static int NURSE_TO_PATIENT;
 
     static {
-        nurseToPatient = 4;
+        NURSE_TO_PATIENT = 4;
     }
 
     public Nurse(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
@@ -18,10 +18,10 @@ public final class Nurse extends Employee implements IHospitalLocation {
     }
 
     public int getNurseToPatient() {
-        return nurseToPatient;
+        return NURSE_TO_PATIENT;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return "Deparment: " + this.getDepartment() + ", Floor: " + this.getDepartment().getNurseMap().get(this);
     }
 

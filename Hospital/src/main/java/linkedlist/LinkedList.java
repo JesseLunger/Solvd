@@ -1,4 +1,4 @@
-package linkedList;
+package linkedlist;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ public class LinkedList<T> {
             tail = newNode;
         } else {
             tail.setNext(newNode);
+            newNode.setPrevious(tail);
             tail = newNode;
         }
         size++;
@@ -51,8 +52,11 @@ public class LinkedList<T> {
         if (node == null) {
             return false;
         }
-        if (tail != null && tail.equals(node)){
+        if (tail != null && tail.equals(node)) {
             tail = node.getPrevious();
+        }
+        if (head != null && head.equals(node)) {
+            head = node.getNext();
         }
         Node<T> previous = node.getPrevious();
         Node<T> next = node.getNext();
@@ -81,6 +85,21 @@ public class LinkedList<T> {
         return false;
     }
 
+    private Node<T> findObject(T object) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.getObject().equals(object)) {
+                return current;
+            }
+            current = current.getNext();
+        }
+        return null;
+    }
+
+    public boolean contains(T object) {
+        return (findObject(object) != null);
+    }
+
     private Node<T> findNodeIndex(int index) {
         if (head == null) {
             return null;
@@ -94,6 +113,14 @@ public class LinkedList<T> {
             return current;
         }
         return null;
+    }
+
+    public T getItemAtIndex(int index) {
+        return findNodeIndex(index).getObject();
+    }
+
+    public T getItem(T object) {
+        return findObject(object).getObject();
     }
 
     public boolean removeIndex(int index) {
@@ -115,5 +142,9 @@ public class LinkedList<T> {
 
     public int getSize() {
         return this.size;
+    }
+
+    public T getLast() {
+        return tail.getObject();
     }
 }

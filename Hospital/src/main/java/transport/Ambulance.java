@@ -1,6 +1,6 @@
 package transport;
 
-import customExceptions.PatientNotInHosptialException;
+import exceptions.PatientNotInHosptialException;
 import interfaces.IAmbulance;
 import location.Department;
 import location.Hospital;
@@ -9,13 +9,13 @@ import org.apache.logging.log4j.Logger;
 import person.Patient;
 import person.Person;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class Ambulance implements IAmbulance {
 
-    private static final Logger LOGGER = LogManager.getLogger("file logger");
-
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String licence;
     private final ArrayList<Person> drivers = new ArrayList<>();
     private Patient patient;

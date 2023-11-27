@@ -3,18 +3,18 @@ package person;
 import java.sql.Date;
 
 public class Person {
-    private final Date dateOfBirth;
-    private final Character sex;
-    private final int id;
+    private final Date DATE_OF_BIRTH;
+    private final Character SEX;
+    private final int ID;
     private String firstName;
     private String lastName;
 
     public Person(String firstName, String lastName, Date dateOfBirth, Character sex) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.sex = sex;
-        this.id = (int) (Math.random() * 1000000000);
+        this.DATE_OF_BIRTH = dateOfBirth;
+        this.SEX = sex;
+        this.ID = (int) (Math.random() * 1000000000);
     }
 
     public void setfName(String name) {
@@ -37,16 +37,16 @@ public class Person {
         return this.lastName;
     }
 
-    public int getId() {
-        return this.id;
+    public int getID() {
+        return this.ID;
     }
 
     public Date getDob() {
-        return this.dateOfBirth;
+        return this.DATE_OF_BIRTH;
     }
 
     public Character getSex() {
-        return this.sex;
+        return this.SEX;
     }
 
     @Override

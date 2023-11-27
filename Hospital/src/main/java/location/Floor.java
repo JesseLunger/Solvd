@@ -5,11 +5,11 @@ import person.Patient;
 import java.util.ArrayList;
 
 public class Floor {
-    private final Integer floorNumber;
-    private final ArrayList<Patient> patients = new ArrayList<>();
+    private final int FLOOR_NUMBER;
+    private ArrayList<Patient> patients = new ArrayList<>();
 
     public Floor(int floorNum) {
-        this.floorNumber = floorNum;
+        this.FLOOR_NUMBER = floorNum;
     }
 
     public boolean addPatient(Patient patient) {
@@ -29,12 +29,12 @@ public class Floor {
     }
 
     public int getFloorNumber() {
-        return this.floorNumber;
+        return this.FLOOR_NUMBER;
     }
 
     @Override
     public String toString() {
-        return "" + this.floorNumber;
+        return "" + this.FLOOR_NUMBER;
     }
 
 }
