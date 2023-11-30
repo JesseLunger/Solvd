@@ -3,7 +3,7 @@ package person;
 import interfaces.IHospitalLocation;
 import schedule.Appointment;
 
-import java.sql.Date;
+import java.util.Date;
 
 public final class Patient extends Person implements IHospitalLocation {
 
@@ -32,7 +32,8 @@ public final class Patient extends Person implements IHospitalLocation {
     }
 
     public String getLocation() {
-        return appointment.getAppointmentInformation();
+        IHospitalLocation hospitalLocation = () -> getAppointment().getAppointmentInformation();
+        return hospitalLocation.getLocation();
     }
 
     @Override

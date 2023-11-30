@@ -5,8 +5,4 @@ public class AppointmentListEmptyException extends Exception {
         super(error);
     }
 
-    public AppointmentListEmptyException() {
-        super();
-    }
-
 }

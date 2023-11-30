@@ -5,7 +5,4 @@ public class AppointmentNotInListException extends Exception {
         super(error);
     }
 
-    public AppointmentNotInListException() {
-        super();
-    }
 }

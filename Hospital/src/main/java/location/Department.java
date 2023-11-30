@@ -9,12 +9,7 @@ import person.Nurse;
 import person.Patient;
 
 import java.lang.invoke.MethodHandles;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 
 public class Department implements IContainsPersonel {
 
@@ -109,9 +104,8 @@ public class Department implements IContainsPersonel {
 
     public boolean floorAtCapacity(int floor) {
         try {
-            int result = getFloorCapacity(floor);
-            return true;
-        } catch (InvalidFloorNumberException e) {
+            return floors.get(floor).getPatientCount() == getFloorCapacity(floor);
+        } catch (InvalidFloorNumberException | IndexOutOfBoundsException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
@@ -168,7 +162,7 @@ public class Department implements IContainsPersonel {
         return this.doctors.size();
     }
 
-    public int getPersonelCount() {
+    public int getPersonnelCount() {
         int total = 0;
         for (Floor floor : this.floors) {
             total += floor.getPatientCount();

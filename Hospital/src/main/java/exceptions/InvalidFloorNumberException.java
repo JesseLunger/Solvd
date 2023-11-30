@@ -5,7 +5,4 @@ public class InvalidFloorNumberException extends Exception {
         super(error);
     }
 
-    public InvalidFloorNumberException() {
-        super();
-    }
 }

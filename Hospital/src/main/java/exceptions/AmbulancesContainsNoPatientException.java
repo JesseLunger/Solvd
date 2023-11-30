@@ -6,7 +6,4 @@ public class AmbulancesContainsNoPatientException extends Exception {
         super(e);
     }
 
-    public AmbulancesContainsNoPatientException() {
-        super();
-    }
 }

@@ -2,7 +2,7 @@ package interfaces;
 
 public interface IContainsPersonel {
 
-    int getPersonelCount();
+    int getPersonnelCount();
 
     boolean atCapacity();
 

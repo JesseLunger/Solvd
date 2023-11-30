@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Floor {
     private final int FLOOR_NUMBER;
-    private ArrayList<Patient> patients = new ArrayList<>();
+    private final ArrayList<Patient> patients = new ArrayList<>();
 
     public Floor(int floorNum) {
         this.FLOOR_NUMBER = floorNum;

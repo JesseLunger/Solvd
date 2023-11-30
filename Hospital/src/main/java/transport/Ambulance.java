@@ -1,6 +1,6 @@
 package transport;
 
-import exceptions.PatientNotInHosptialException;
+import exceptions.PatientNotInHospitalException;
 import interfaces.IAmbulance;
 import location.Department;
 import location.Hospital;
@@ -18,15 +18,18 @@ public class Ambulance implements IAmbulance {
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String licence;
     private final ArrayList<Person> drivers = new ArrayList<>();
+    private final Model model;
     private Patient patient;
 
-    public Ambulance(String licence) {
+    public Ambulance(String licence, Model model) {
+
         this.licence = licence;
+        this.model = model;
     }
 
-    public Person getPatient() throws PatientNotInHosptialException {
+    public Person getPatient() throws PatientNotInHospitalException {
         if (patient == null) {
-            throw new PatientNotInHosptialException("Ambulance: " + getLicence() + ", has no patient");
+            throw new PatientNotInHospitalException("Ambulance: " + getLicence() + ", has no patient");
         }
         return this.patient;
     }
@@ -50,11 +53,15 @@ public class Ambulance implements IAmbulance {
         return this.licence;
     }
 
+    public String getModel() {
+        return this.model.getModelName();
+    }
+
     @Override
     public boolean isReadyToDrive() {
         try {
             getPatient();
-        } catch (PatientNotInHosptialException e) {
+        } catch (PatientNotInHospitalException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
@@ -68,7 +75,7 @@ public class Ambulance implements IAmbulance {
         }
         for (Hospital hospital : hospitals) {
             for (Department department : hospital.getDepartments()) {
-                if (IAmbulance.emergencyRoom.equals(department.getName())) {
+                if (HospitalDepartments.ER.getRoomName().equals(department.getName())) {
                     if (hospital.addPatient(this.patient, department, date, timeSlot)) {
                         return true;
                     }

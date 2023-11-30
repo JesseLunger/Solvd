@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import schedule.Appointment;
 
 import java.lang.invoke.MethodHandles;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
@@ -39,7 +39,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
 
     @Override
     public String getLocation() {
-        return "Department: " + this.getDepartment();
+        return super.getLocation();
     }
 
     @Override
@@ -47,6 +47,14 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         if (date == null || timeSlot == null) {
             return false;
         }
+        for (Months month : Months.values()) {
+            if (month.getMonthNumber() == date.getMonth() + 1) {
+                if (date.getDay() > month.getNumberOfDays()) {
+                    return false;
+                }
+            }
+        }
+
         if (!(IScheduler.timeSlots.contains(timeSlot))) {
             return false;
         }
@@ -74,20 +82,19 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
     public boolean reschedule(Appointment appointment, Date date, String timeSlot) {
         try {
             removeAppointment(appointment);
-        } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
-            LOGGER.error("Caught " + e + "exception during reschedule: " + e.getMessage());
-        }
-        /*This is necessary because we cannot use any upstream pointers, only floor has access to patient data*/
-        for (Floor floor : this.getDepartment().getFloors()) {
-            for (Patient patient : floor.getPatients()) {
-                if (patient.equals(appointment.getPatient())) {
-                    floor.removePatient(patient);
-                    break;
+            for (Floor floor : this.getDepartment().getFloors()) {
+                for (Patient patient : floor.getPatients()) {
+                    if (patient.equals(appointment.getPatient())) {
+                        floor.removePatient(patient);
+                        break;
+                    }
                 }
             }
+            return this.addAppointment(date, timeSlot, appointment.getPatient());
+        } catch (AppointmentNotInListException | AppointmentListEmptyException e) {
+            LOGGER.error("Caught " + e + "exception during reschedule: " + e.getMessage());
+            return false;
         }
-
-        return this.addAppointment(date, timeSlot, appointment.getPatient());
     }
 
     @Override

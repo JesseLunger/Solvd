@@ -1,15 +1,21 @@
 package person;
 
+import interfaces.IHospitalLocation;
 import location.Department;
 
-import java.sql.Date;
+import java.util.Date;
 
-public abstract class Employee extends Person {
+public abstract class Employee extends Person implements IHospitalLocation {
     private Department department;
 
     public Employee(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex);
         this.department = department;
+    }
+
+    public String getLocation() {
+        IHospitalLocation hospitalLocation = () -> "" + getDepartment();
+        return hospitalLocation.getLocation();
     }
 
     public Department getDepartment() {

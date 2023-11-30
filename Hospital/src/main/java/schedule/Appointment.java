@@ -3,7 +3,7 @@ package schedule;
 import person.Doctor;
 import person.Patient;
 
-import java.sql.Date;
+import java.util.Date;
 
 public final class Appointment {
     private final String timeSlot;

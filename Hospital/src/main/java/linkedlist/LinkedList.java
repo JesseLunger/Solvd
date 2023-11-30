@@ -1,6 +1,7 @@
 package linkedlist;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class LinkedList<T> {
 
@@ -8,19 +9,18 @@ public class LinkedList<T> {
     private Node<T> head;
     private int size;
 
-    public LinkedList() {
-    }
-
-    public boolean addItem(T object) {
+    public boolean addItem(T object, Function<T, Boolean> condition) {
+        if (condition.apply(object)) {
+            return false;
+        }
         Node<T> newNode = new Node<>(object);
         if (head == null) {
             head = newNode;
-            tail = newNode;
         } else {
             tail.setNext(newNode);
             newNode.setPrevious(tail);
-            tail = newNode;
         }
+        tail = newNode;
         size++;
         return true;
     }
@@ -34,7 +34,10 @@ public class LinkedList<T> {
         return true;
     }
 
-    public boolean addAtIndex(int index, T object) {
+    public boolean addAtIndex(int index, T object, Function<T, Boolean> condition) {
+        if (condition.apply(object)) {
+            return false;
+        }
         Node<T> newNode = new Node<>(object);
         Node<T> targetNode = findNodeIndex(index);
         if (targetNode == null) {
