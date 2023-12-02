@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 import java.lang.invoke.MethodHandles;
 
 public enum BusinessType {
-        soleProprietorship("SoleProprietorship"),
-        partnership("Partnership"),
-        corporation("Corporation"),
-        sCorporation("SCorporation");
+        SOLE_PROPRIETORSHIP("SoleProprietorship"),
+        PARTNERSHIP("Partnership"),
+        CORPORATION("Corporation"),
+        S_CORPORATION("SCorporation");
 
         private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 

@@ -22,7 +22,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DATE_OF_BIRTH = dateOfBirth;
-        this.SEX = (sex == 'm' || sex == 'M') ? Sex.MALE.getSex() : Sex.Female.getSex();
+        this.SEX = (sex == 'm' || sex == 'M') ? Sex.MALE.getSex() : Sex.FEMALE.getSex();
         randomSupplier = () -> (int) (Math.random() * 1000000000);
         nameSupplier = () -> firstName + " " + lastName;
         this.ID = randomSupplier.get();

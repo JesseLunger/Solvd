@@ -1,9 +1,7 @@
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
-import interfaces.IAmbulance;
 import interfaces.IScheduler;
 import linkedlist.LinkedList;
-import location.Business;
 import location.Department;
 import location.Floor;
 import location.Hospital;
@@ -30,7 +28,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com", BusinessType.partnership);
+        Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com", BusinessType.PARTNERSHIP);
 
         saintJudeHospital.addDepartment(new Department(HospitalDepartments.ER, 5));
         saintJudeHospital.addDepartment(new Department(HospitalDepartments.ICU, 3));
@@ -94,7 +92,7 @@ public class Main {
 
         Patient tmpPatient = new Patient("ride", "orDie", date, 'm', "sleepy");
         System.out.println(tmpPatient.getFullinformation());
-        Ambulance ambulance = new Ambulance("333bbb", AmbulancesModel.Ford);
+        Ambulance ambulance = new Ambulance("333bbb", AmbulancesModel.FORD);
         ambulance.addDriver(driver1);
         ambulance.addDriver(driver2);
         ambulance.setPatient(tmpPatient);

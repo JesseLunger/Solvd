@@ -7,7 +7,7 @@ import java.lang.invoke.MethodHandles;
 
 public enum Sex {
     MALE('m'),
-    Female('f');
+    FEMALE('f');
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 

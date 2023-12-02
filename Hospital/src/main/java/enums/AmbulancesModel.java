@@ -7,10 +7,10 @@ import java.lang.invoke.MethodHandles;
 
 public enum AmbulancesModel {
 
-    Ford("Ford"),
-    Chevy("Chevy"),
-    Honda("Honda"),
-    Subaru("Subaru");
+    FORD("Ford"),
+    CHEVY("Chevy"),
+    HONDA("Honda"),
+    SUBARU("Subaru");
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
