@@ -1,6 +1,7 @@
 package person;
 
 import functionalinterfaces.IFiveParameters;
+import enums.Sex;
 
 import java.util.Date;
 import java.util.function.Supplier;
@@ -21,7 +22,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DATE_OF_BIRTH = dateOfBirth;
-        this.SEX = (sex == 'm' || sex == 'M') ? SexEnum.MALE.getSex() : SexEnum.Female.getSex();
+        this.SEX = (sex == 'm' || sex == 'M') ? Sex.MALE.getSex() : Sex.Female.getSex();
         randomSupplier = () -> (int) (Math.random() * 1000000000);
         nameSupplier = () -> firstName + " " + lastName;
         this.ID = randomSupplier.get();
@@ -73,19 +74,4 @@ public class Person {
         return this.getName();
     }
 
-    enum SexEnum {
-        MALE('m'),
-        Female('f');
-
-        private final char sex;
-
-        SexEnum(char sex) {
-            this.sex = sex;
-        }
-
-        public char getSex() {
-            return this.sex;
-        }
-
-    }
 }

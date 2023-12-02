@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Patient;
 import person.Person;
+import enums.*;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.Date;
@@ -18,10 +19,10 @@ public class Ambulance implements IAmbulance {
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final String licence;
     private final ArrayList<Person> drivers = new ArrayList<>();
-    private final Model model;
+    private final AmbulancesModel model;
     private Patient patient;
 
-    public Ambulance(String licence, Model model) {
+    public Ambulance(String licence, AmbulancesModel model) {
 
         this.licence = licence;
         this.model = model;

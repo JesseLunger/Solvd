@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
+import enums.*;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;

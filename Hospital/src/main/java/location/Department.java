@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
+import enums.HospitalDepartments;
 
 import java.lang.invoke.MethodHandles;
 import java.util.*;
@@ -14,12 +15,12 @@ import java.util.*;
 public class Department implements IContainsPersonel {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-    private final String name;
+    private final HospitalDepartments name;
     private final ArrayList<Floor> floors = new ArrayList<>();
     private final ArrayList<Doctor> doctors = new ArrayList<>();
     private final HashMap<Nurse, Integer> nurses = new HashMap<>();
 
-    public Department(String name, int numFloors) {
+    public Department(HospitalDepartments name, int numFloors) {
         this.name = name;
         for (int i = 0; i < numFloors; i++) {
             floors.add(new Floor(i));
@@ -143,7 +144,7 @@ public class Department implements IContainsPersonel {
     }
 
     public String getName() {
-        return this.name;
+        return this.name.getRoomName();
     }
 
     public ArrayList<Doctor> getDoctors() {

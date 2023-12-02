@@ -16,24 +16,26 @@ import person.Person;
 import schedule.Appointment;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
+import enums.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.function.Function;
 
 public class Main {
-    private static final Logger LOGGER = LogManager.getLogger("file logger");
+    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
 
-        Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com", Business.BusinessType.soleProprietorship);
+        Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com", BusinessType.partnership);
 
-        saintJudeHospital.addDepartment(new Department("Emergency Room", 5));
-        saintJudeHospital.addDepartment(new Department("Intensive Care Unit", 3));
-        saintJudeHospital.addDepartment(new Department("Neonatal Intensive Care Unit", 2));
-        saintJudeHospital.addDepartment(new Department("Operating Room", 4));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartments.ER, 5));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartments.ICU, 3));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartments.NICU, 2));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartments.OR, 4));
 
         String[] timeSlots = new String[3];
         IScheduler.timeSlots.toArray(timeSlots);
@@ -73,7 +75,6 @@ public class Main {
         LOGGER.info("Total patients: " + saintJudeHospital.getPatients().size());
         LOGGER.info("Patients in " + saintJudeHospital.getDepartments().get(2) + ": " + saintJudeHospital.getDepartments().get(2).getPatients().size());
 
-
         Doctor tmpDoc = saintJudeHospital.getDoctors().get(0);
 
         LOGGER.info("\nVerifying removeDoc: " + tmpDoc);
@@ -88,13 +89,12 @@ public class Main {
             LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
         }
 
-
         Person driver1 = new Person("driver", "1", date, 'f');
         Person driver2 = new Person("driver", "2", date, 'f');
 
         Patient tmpPatient = new Patient("ride", "orDie", date, 'm', "sleepy");
         System.out.println(tmpPatient.getFullinformation());
-        Ambulance ambulance = new Ambulance("333bbb", IAmbulance.Model.Ford);
+        Ambulance ambulance = new Ambulance("333bbb", AmbulancesModel.Ford);
         ambulance.addDriver(driver1);
         ambulance.addDriver(driver2);
         ambulance.setPatient(tmpPatient);
@@ -111,7 +111,6 @@ public class Main {
 
         LOGGER.info("\nVerifying reschedule works");
         LOGGER.info(tmpPatient.getAppointment().getAppointmentInformation());
-
 
         LOGGER.info("\nVerifying exception handling plus custom exception");
         Date fakeDate = new Date(1996, 24, 8);
