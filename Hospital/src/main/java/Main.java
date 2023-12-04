@@ -17,6 +17,7 @@ import person.Person;
 import schedule.Appointment;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
+import reflections.ClassInfoReflection;
 
 import java.io.File;
 import java.io.IOException;
@@ -164,9 +165,19 @@ public class Main {
         hospitals.get(0).logDoctors();
         Doctor oldest = new Doctor("Doctor", "oldest", new java.util.Date(80, 5, 5), 'f', saintJudeHospital.getDepartments().get(0));
         saintJudeHospital.addDoctor(oldest);
-        System.out.println(hospitals.get(0).getOldestDoctor());
+        LOGGER.info(hospitals.get(0).getOldestDoctor());
 
-        System.out.println(saintJudeHospital.getPersonnelCount());
+        LOGGER.info("Collecting Class information to make reflection:");
+        ClassInfoReflection classInfoReflection = new ClassInfoReflection(oldest);
+        classInfoReflection.logFields();
+        classInfoReflection.logConstructors();
+        classInfoReflection.logMethods();
+
+        LOGGER.info("Initializing reflection");
+        Object[] doctorArgs = {oldest.getFName(), oldest.getLname(), oldest.getDob(), oldest.getSex(), oldest.getDepartment()};
+        Doctor newOldDoc = classInfoReflection.createInstance(Doctor.class, doctorArgs);
+        LOGGER.info("Reflection calls method toString: " + newOldDoc);
+
     }
 }
 
