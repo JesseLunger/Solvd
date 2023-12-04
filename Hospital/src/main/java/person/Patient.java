@@ -1,5 +1,6 @@
 package person;
 
+import enums.Sex;
 import interfaces.IHospitalLocation;
 import schedule.Appointment;
 
@@ -11,7 +12,7 @@ public final class Patient extends Person implements IHospitalLocation {
     private Appointment appointment;
     private IHospitalLocation hospitalLocation = () -> getAppointment().getAppointmentInformation();
 
-    public Patient(String firstName, String lastName, Date dateOfBirth, Character sex, String symptoms) {
+    public Patient(String firstName, String lastName, Date dateOfBirth, Sex sex, String symptoms) {
         super(firstName, lastName, dateOfBirth, sex);
         this.symptoms = symptoms;
     }

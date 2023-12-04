@@ -2,6 +2,7 @@ package location;
 
 import enums.HospitalDepartment;
 import exceptions.InvalidFloorNumberException;
+import exceptions.NoAvailableFloorException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +51,7 @@ public class Department implements IContainsPersonel {
         return (double) patientCount / (double) capacity;
     }
 
-    public Floor nurseFindFloor() {
+    public Floor nurseFindFloor() throws NoAvailableFloorException {
         return floors.stream()
                 .min(Comparator.comparingInt(floor -> {
                     try {
@@ -60,16 +61,16 @@ public class Department implements IContainsPersonel {
                         return Integer.MAX_VALUE;
                     }
                 }))
-                .orElse(null);
+                .orElseThrow(() -> new NoAvailableFloorException("No floor available for nurse"));
     }
 
-    public Floor patientFindFloor() {
+    public Floor patientFindFloor() throws NoAvailableFloorException {
         if (atCapacity()) {
             return null;
         }
         return floors.stream().min(Comparator.comparingDouble(
                         floor -> getFloorLoadFactor(floors.indexOf(floor))))
-                .orElse(null);
+                .orElseThrow(() -> new NoAvailableFloorException("No Floor available for the patient"));
     }
 
     public int getCapacity() {
@@ -122,11 +123,12 @@ public class Department implements IContainsPersonel {
         if (atCapacity()) {
             return false;
         }
-        Floor floor = patientFindFloor();
-        if (floor != null) {
-            return floor.getPatients().add(patient);
+        try {
+            return patientFindFloor().addPatient(patient);
+        } catch (NoAvailableFloorException e) {
+            LOGGER.error(e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public boolean atCapacity() {

@@ -1,8 +1,10 @@
 package person;
 
 import enums.Month;
+import enums.Sex;
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
+import exceptions.NoAvailableFloorException;
 import interfaces.IHospitalLocation;
 import interfaces.IScheduler;
 import location.Department;
@@ -22,7 +24,7 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final ArrayList<Appointment> appointments = new ArrayList<>();
 
-    public Doctor(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
+    public Doctor(String firstName, String lastName, Date dateOfBirth, Sex sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex, department);
     }
 
@@ -47,7 +49,13 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
 
     @Override
     public boolean addAppointment(Date date, String timeSlot, Patient patient) {
-        Floor floor = this.getDepartment().patientFindFloor();
+        Floor floor;
+        try {
+            floor = this.getDepartment().patientFindFloor();
+        } catch (NoAvailableFloorException e) {
+            LOGGER.info(e.getMessage());
+            return false;
+        }
         Predicate<Month> isValidDate = month -> (month.getMonthNumber() == date.getMonth() + 1) && (date.getDay() > month.getNumberOfDays());
         Predicate<Appointment> isValidAppointment = appointment -> appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot);
 
@@ -69,7 +77,6 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
         floor.addPatient(patient);
         return true;
     }
-
 
     @Override
     public boolean reschedule(Appointment appointment, Date date, String timeSlot) {

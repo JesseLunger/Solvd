@@ -1,5 +1,6 @@
 package person;
 
+import enums.Sex;
 import interfaces.IHospitalLocation;
 import location.Department;
 
@@ -13,7 +14,7 @@ public final class Nurse extends Employee implements IHospitalLocation {
         NURSE_TO_PATIENT = 4;
     }
 
-    public Nurse(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
+    public Nurse(String firstName, String lastName, Date dateOfBirth, Sex sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex, department);
     }
 

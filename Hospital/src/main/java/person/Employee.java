@@ -1,5 +1,6 @@
 package person;
 
+import enums.Sex;
 import interfaces.IHospitalLocation;
 import location.Department;
 
@@ -8,7 +9,7 @@ import java.util.Date;
 public abstract class Employee extends Person implements IHospitalLocation {
     private Department department;
 
-    public Employee(String firstName, String lastName, Date dateOfBirth, Character sex, Department department) {
+    public Employee(String firstName, String lastName, Date dateOfBirth, Sex sex, Department department) {
         super(firstName, lastName, dateOfBirth, sex);
         this.department = department;
     }

@@ -38,7 +38,7 @@ public class MyFileReader {
             fileContent = fileContent.replaceAll("[^a-z\\s]", "");
             String[] words = StringUtils.split(fileContent);
             Collections.addAll(hashSet, words);
-            FileUtils.write(file, "Unique Words: " + hashSet.size(), true); //writes to target file
+            FileUtils.write(file, "\nUnique Words: " + hashSet.size(), true); //writes to target file
         } catch (IOException e) {
             e.printStackTrace();
         }

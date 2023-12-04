@@ -1,7 +1,7 @@
 package person;
 
 import enums.Sex;
-import functionalinterfaces.FiveParameters;
+import functionalinterfaces.IFiveParameters;
 
 import java.util.Date;
 import java.util.function.Supplier;
@@ -10,19 +10,19 @@ import java.util.function.Supplier;
 public class Person {
 
     private final Date DATE_OF_BIRTH;
-    private final Character SEX;
+    private final Sex SEX;
     private final int ID;
-    Supplier<Integer> randomSupplier;
-    Supplier<String> nameSupplier;
-    FiveParameters<String> concatStringLambda;
+    private Supplier<Integer> randomSupplier;
+    private Supplier<String> nameSupplier;
+    private IFiveParameters<String> concatStringLambda;
     private String firstName;
     private String lastName;
 
-    public Person(String firstName, String lastName, Date dateOfBirth, Character sex) {
+    public Person(String firstName, String lastName, Date dateOfBirth, Sex sex) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DATE_OF_BIRTH = dateOfBirth;
-        this.SEX = (sex == 'm' || sex == 'M') ? Sex.MALE.getSex() : Sex.FEMALE.getSex();
+        this.SEX = sex;
         randomSupplier = () -> (int) (Math.random() * 1000000000);
         nameSupplier = () -> firstName + " " + lastName;
         this.ID = randomSupplier.get();
@@ -59,11 +59,11 @@ public class Person {
     }
 
     public Character getSex() {
-        return this.SEX;
+        return SEX.getSex();
     }
 
     public String getFullinformation() {
-        return concatStringLambda.myApply(firstName, lastName,
+        return concatStringLambda.concatenate(firstName, lastName,
                 ", Sex: " + SEX,
                 ", DOB: " + DATE_OF_BIRTH.toString(),
                 ", ID: " + ID);

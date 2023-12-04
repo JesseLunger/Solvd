@@ -3,8 +3,7 @@ package functionalinterfaces;
 import java.util.ArrayList;
 
 @FunctionalInterface
-public interface ToArray<T> {
+public interface IToArray<T> {
 
-    ArrayList myApply(T para1);
-
+    ArrayList toArray(T para1);
 }

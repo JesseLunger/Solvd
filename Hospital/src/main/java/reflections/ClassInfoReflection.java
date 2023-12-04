@@ -14,18 +14,17 @@ import java.util.Arrays;
 public class ClassInfoReflection {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-    Class<?> targetClass;
-    Object classInstance;
+    private Class<?> targetClass;
 
-    public ClassInfoReflection(Object targetClass) {
-        this.targetClass = targetClass.getClass();
+    public ClassInfoReflection(Class targetClass) {
+        this.targetClass = targetClass;
     }
 
-    public void getClassName() {
+    public void logClassName() {
         LOGGER.info("ClassName: " + targetClass.getSimpleName());
     }
 
-    public void getSuperClass() {
+    public void logSuperClassName() {
         LOGGER.info("Superclass: " + targetClass.getSuperclass() != null ? targetClass.getSuperclass() : "None");
     }
 

@@ -1,9 +1,10 @@
 package location;
 
 import enums.BusinessType;
+import exceptions.NoAvailableFloorException;
 import exceptions.PatientNotInHospitalException;
-import functionalinterfaces.Compare;
-import functionalinterfaces.ToArray;
+import functionalinterfaces.ICompare;
+import functionalinterfaces.IToArray;
 import interfaces.IContainsPersonel;
 import linkedlist.LinkedList;
 import org.apache.logging.log4j.LogManager;
@@ -30,8 +31,8 @@ public class Hospital extends Business implements IContainsPersonel {
     private final BusinessType businessType;
     private final LinkedList<Department> departments = new LinkedList<>();
     private final Function<Department, Boolean> nullCheck = s -> (s == null);
-    ToArray<LinkedList> toArrayLambda;
-    Compare<Date> compareAgeLambda;
+    IToArray<LinkedList> toArrayLambda;
+    ICompare<Date> compareAgeLambda;
 
     public Hospital(String name, String address, String contactInfo, BusinessType businessType) {
         this.name = name;
@@ -48,7 +49,7 @@ public class Hospital extends Business implements IContainsPersonel {
                 .sum();
     }
 
-    public Floor findPatientFloor(Patient patient) throws PatientNotInHospitalException {
+    private Floor findPatientFloor(Patient patient) throws PatientNotInHospitalException {
         getDepartments().stream()
                 .flatMap(department -> department.getFloors().stream())
                 .filter(floor -> getPatients().contains(patient))
@@ -61,7 +62,7 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public ArrayList<Department> getDepartments() {
-        return toArrayLambda.myApply(departments);
+        return toArrayLambda.toArray(departments);
     }
 
     public boolean addDepartment(Department department) {
@@ -77,8 +78,12 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public boolean addNurse(Nurse nurse) {
-        Floor floor = nurse.getDepartment().nurseFindFloor();
-        return nurse.getDepartment().getNurseMap().putIfAbsent(nurse, floor.getFloorNumber()) == null;
+        try {
+            return nurse.getDepartment().getNurseMap().put(nurse, nurse.getDepartment().nurseFindFloor().getFloorNumber()) == null;
+        } catch (NoAvailableFloorException e) {
+            LOGGER.error(e.getMessage());
+            return false;
+        }
     }
 
     public boolean addPatient(Patient patient, Department department, Date date, String timeSlot) {
@@ -120,7 +125,7 @@ public class Hospital extends Business implements IContainsPersonel {
     public Doctor getOldestDoctor() {
         ArrayList<Doctor> doctors = getDoctors();
         Doctor oldestDoctor = doctors.stream()
-                .reduce((first, current) -> compareAgeLambda.myApply(first.getDob(), current.getDob()) > 0 ? current : first)
+                .reduce((first, current) -> compareAgeLambda.compare(first.getDob(), current.getDob()) > 0 ? current : first)
                 .orElse(null);
         return oldestDoctor;
     }

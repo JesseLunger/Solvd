@@ -1,6 +1,7 @@
 import enums.AmbulancesModel;
 import enums.BusinessType;
 import enums.HospitalDepartment;
+import enums.Sex;
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
 import interfaces.IScheduler;
@@ -43,7 +44,7 @@ public class Main {
         Date date = new Date(90, 5, 5);
         System.out.println(date);
         for (int i = 0; i < 30; i++) {
-            Doctor doctor = new Doctor("Doctor", "" + i, date, 'f', saintJudeHospital.getDepartments().get(i % 4));
+            Doctor doctor = new Doctor("Doctor", "" + i, date, Sex.FEMALE, saintJudeHospital.getDepartments().get(i % 4));
             saintJudeHospital.addDoctor(doctor);
         }
         LOGGER.info("\nVerifying doctors populated");
@@ -53,7 +54,7 @@ public class Main {
 
 
         for (int i = 0; i < 50; i++) {
-            Nurse nurse = new Nurse("Nurse", "" + i, date, 'm', saintJudeHospital.getDepartments().get(i % 4));
+            Nurse nurse = new Nurse("Nurse", "" + i, date, Sex.MALE, saintJudeHospital.getDepartments().get(i % 4));
             saintJudeHospital.addNurse(nurse);
         }
         LOGGER.info("\nVerifying nurses populated");
@@ -67,7 +68,7 @@ public class Main {
             int month = (i % 12);
             int year = 2023;
             Date tmpDate = new Date(year, month, day);
-            Patient patient = new Patient("Patient", "" + i, date, 'm', "headache");
+            Patient patient = new Patient("Patient", "" + i, date, Sex.MALE, "headache");
             saintJudeHospital.addPatient(patient, saintJudeHospital.getDepartments().get(i % 4), tmpDate, timeSlots[i % timeSlots.length]);
         }
 
@@ -90,10 +91,10 @@ public class Main {
             LOGGER.info("num pts: " + floor.getPatientCount() + ", num nurses: " + saintJudeHospital.getDepartments().get(0).getNursesByFloorCount(floor.getFloorNumber()));
         }
 
-        Person driver1 = new Person("driver", "1", date, 'f');
-        Person driver2 = new Person("driver", "2", date, 'f');
+        Person driver1 = new Person("driver", "1", date, Sex.FEMALE);
+        Person driver2 = new Person("driver", "2", date, Sex.MALE);
 
-        Patient tmpPatient = new Patient("ride", "orDie", date, 'm', "sleepy");
+        Patient tmpPatient = new Patient("ride", "orDie", date, Sex.MALE, "sleepy");
         System.out.println(tmpPatient.getFullinformation());
         Ambulance ambulance = new Ambulance("333bbb", AmbulancesModel.FORD);
         ambulance.addDriver(driver1);
@@ -157,26 +158,25 @@ public class Main {
         try {
             MyFileReader fileReader = new MyFileReader("uniqueWordTestFile.txt");
             fileReader.writeUniqueWordsToFile();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         hospitals.get(0).logDoctors();
-        Doctor oldest = new Doctor("Doctor", "oldest", new java.util.Date(80, 5, 5), 'f', saintJudeHospital.getDepartments().get(0));
+        Doctor oldest = new Doctor("Doctor", "oldest", new java.util.Date(80, 5, 5), Sex.FEMALE, saintJudeHospital.getDepartments().get(0));
         saintJudeHospital.addDoctor(oldest);
         LOGGER.info(hospitals.get(0).getOldestDoctor());
 
         LOGGER.info("Collecting Class information to make reflection:");
-        ClassInfoReflection classInfoReflection = new ClassInfoReflection(oldest);
+        ClassInfoReflection classInfoReflection = new ClassInfoReflection(oldest.getClass());
         classInfoReflection.logFields();
         classInfoReflection.logConstructors();
         classInfoReflection.logMethods();
 
         LOGGER.info("Initializing reflection");
-        Object[] doctorArgs = {oldest.getFName(), oldest.getLname(), oldest.getDob(), oldest.getSex(), oldest.getDepartment()};
+        Object[] doctorArgs = {oldest.getFName(), oldest.getLname(), oldest.getDob(), Sex.FEMALE, oldest.getDepartment()};
         Doctor newOldDoc = classInfoReflection.createInstance(Doctor.class, doctorArgs);
-        LOGGER.info("Reflection calls method toString: " + newOldDoc);
+        LOGGER.info("Create Reflection: " + (newOldDoc.getLname().equals("oldest") ? "pass" : "fail"));
     }
 }
 
