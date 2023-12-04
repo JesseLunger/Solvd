@@ -31,8 +31,8 @@ public class Hospital extends Business implements IContainsPersonel {
     private final BusinessType businessType;
     private final LinkedList<Department> departments = new LinkedList<>();
     private final Function<Department, Boolean> nullCheck = s -> (s == null);
-    IToArray<LinkedList> toArrayLambda;
-    ICompare<Date> compareAgeLambda;
+    private IToArray<LinkedList> toArrayLambda;
+    private ICompare<Date> compareAgeLambda;
 
     public Hospital(String name, String address, String contactInfo, BusinessType businessType) {
         this.name = name;

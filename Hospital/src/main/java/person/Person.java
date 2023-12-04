@@ -58,8 +58,8 @@ public class Person {
         return this.DATE_OF_BIRTH;
     }
 
-    public Character getSex() {
-        return SEX.getSex();
+    public Sex getSex() {
+        return SEX;
     }
 
     public String getFullinformation() {
