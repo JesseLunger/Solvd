@@ -17,18 +17,23 @@ import person.Patient;
 import person.Person;
 import reflections.ClassInfoReflection;
 import schedule.Appointment;
+import threads.ConnectionPool;
+import threads.CustomFuture;
+import threads.CustomRunnableThread;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
 public class Main {
-    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
+    //    private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger LOGGER = LogManager.getLogger("File");
 
     public static void main(String[] args) {
 
@@ -177,6 +182,29 @@ public class Main {
         Object[] doctorArgs = {oldest.getFName(), oldest.getLname(), oldest.getDob(), Sex.FEMALE, oldest.getDepartment()};
         Doctor newOldDoc = classInfoReflection.createInstance(Doctor.class, doctorArgs);
         LOGGER.info("Create Reflection: " + (newOldDoc.getLname().equals("oldest") ? "pass" : "fail"));
+
+        LOGGER.info("\n\n--------------Begin CustomRunnableThread demonstrations----------\n");
+
+        ConnectionPool connectionPool = new ConnectionPool();
+        CustomRunnableThread customRunnableThread = new CustomRunnableThread(connectionPool);
+        customRunnableThread.repeatActivation(7);
+
+        LOGGER.info("\n\n--------------Finished CustomRunnableThread demonstrations, preparing for CustomFuture demonstration----------\n");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+        CustomFuture futureThread = new CustomFuture(connectionPool);
+        CompletableFuture<Void> stage1 = futureThread.getStage(5);
+        CompletableFuture<Void> stage2 = stage1.thenCompose(result -> futureThread.getStage(2));
+        try {
+            stage2.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }
 
