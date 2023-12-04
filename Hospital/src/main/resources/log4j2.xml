@@ -12,11 +12,9 @@
         <Logger name="file logger" level="info" additivity="false">
             <AppenderRef ref="File"/>
         </Logger>
-        >
         <Logger name="console logger" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        >
         <Root level="info" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>

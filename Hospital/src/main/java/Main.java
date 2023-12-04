@@ -177,7 +177,6 @@ public class Main {
         Object[] doctorArgs = {oldest.getFName(), oldest.getLname(), oldest.getDob(), oldest.getSex(), oldest.getDepartment()};
         Doctor newOldDoc = classInfoReflection.createInstance(Doctor.class, doctorArgs);
         LOGGER.info("Reflection calls method toString: " + newOldDoc);
-
     }
 }
 
