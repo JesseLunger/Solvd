@@ -1,5 +1,7 @@
 package transport;
 
+import enums.AmbulancesModel;
+import enums.HospitalDepartment;
 import exceptions.PatientNotInHospitalException;
 import interfaces.IAmbulance;
 import location.Department;
@@ -8,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import person.Patient;
 import person.Person;
-import enums.*;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.Date;
@@ -76,7 +77,7 @@ public class Ambulance implements IAmbulance {
         }
         for (Hospital hospital : hospitals) {
             for (Department department : hospital.getDepartments()) {
-                if (HospitalDepartments.ER.getRoomName().equals(department.getName())) {
+                if (HospitalDepartment.ER.getRoomName().equals(department.getName())) {
                     if (hospital.addPatient(this.patient, department, date, timeSlot)) {
                         return true;
                     }

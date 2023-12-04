@@ -1,5 +1,6 @@
 package location;
 
+import enums.HospitalDepartment;
 import exceptions.InvalidFloorNumberException;
 import interfaces.IContainsPersonel;
 import org.apache.logging.log4j.LogManager;
@@ -7,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
-import enums.HospitalDepartments;
 
 import java.lang.invoke.MethodHandles;
 import java.util.*;
@@ -15,12 +15,12 @@ import java.util.*;
 public class Department implements IContainsPersonel {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-    private final HospitalDepartments name;
+    private final HospitalDepartment name;
     private final ArrayList<Floor> floors = new ArrayList<>();
     private final ArrayList<Doctor> doctors = new ArrayList<>();
     private final HashMap<Nurse, Integer> nurses = new HashMap<>();
 
-    public Department(HospitalDepartments name, int numFloors) {
+    public Department(HospitalDepartment name, int numFloors) {
         this.name = name;
         for (int i = 0; i < numFloors; i++) {
             floors.add(new Floor(i));
@@ -73,21 +73,15 @@ public class Department implements IContainsPersonel {
     }
 
     public int getCapacity() {
-        int capacity = 0;
-        for (Nurse nurse : this.getNurseArray()) {
-            capacity += nurse.getNurseToPatient();
-        }
-        return capacity;
+        return getNurseArray().stream()
+                .mapToInt(nurse -> nurse.getNurseToPatient())
+                .sum();
     }
 
     public int getNursesByFloorCount(int floorNumber) {
-        int count = 0;
-        for (Map.Entry<Nurse, Integer> entry : this.nurses.entrySet()) {
-            if (entry.getValue() == floorNumber) {
-                count += 1;
-            }
-        }
-        return count;
+        return (int) getNurseMap().entrySet().stream()
+                .filter(nurseIntegerEntry -> (nurseIntegerEntry.getValue() == floorNumber))
+                .count();
     }
 
     public int getFloorCapacity(int floorNumber) throws InvalidFloorNumberException {
@@ -168,7 +162,7 @@ public class Department implements IContainsPersonel {
         for (Floor floor : this.floors) {
             total += floor.getPatientCount();
         }
-        return total + this.doctors.size();
+        return total + this.doctors.size() + this.nurses.size();
     }
 
     public int getFloorCount() {

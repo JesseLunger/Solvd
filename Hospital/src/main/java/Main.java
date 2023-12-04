@@ -1,3 +1,6 @@
+import enums.AmbulancesModel;
+import enums.BusinessType;
+import enums.HospitalDepartment;
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
 import interfaces.IScheduler;
@@ -14,7 +17,6 @@ import person.Person;
 import schedule.Appointment;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
-import enums.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +32,10 @@ public class Main {
 
         Hospital saintJudeHospital = new Hospital("saint jude", "12345 main st", "email: 12345@12345.com", BusinessType.PARTNERSHIP);
 
-        saintJudeHospital.addDepartment(new Department(HospitalDepartments.ER, 5));
-        saintJudeHospital.addDepartment(new Department(HospitalDepartments.ICU, 3));
-        saintJudeHospital.addDepartment(new Department(HospitalDepartments.NICU, 2));
-        saintJudeHospital.addDepartment(new Department(HospitalDepartments.OR, 4));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartment.ER, 5));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartment.ICU, 3));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartment.NICU, 2));
+        saintJudeHospital.addDepartment(new Department(HospitalDepartment.OR, 4));
 
         String[] timeSlots = new String[3];
         IScheduler.timeSlots.toArray(timeSlots);
@@ -163,6 +165,8 @@ public class Main {
         Doctor oldest = new Doctor("Doctor", "oldest", new java.util.Date(80, 5, 5), 'f', saintJudeHospital.getDepartments().get(0));
         saintJudeHospital.addDoctor(oldest);
         System.out.println(hospitals.get(0).getOldestDoctor());
+
+        System.out.println(saintJudeHospital.getPersonnelCount());
     }
 }
 

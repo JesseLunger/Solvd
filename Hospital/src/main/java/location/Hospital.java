@@ -1,8 +1,9 @@
 package location;
 
+import enums.BusinessType;
 import exceptions.PatientNotInHospitalException;
-import functionalinterfaces.ICompare;
-import functionalinterfaces.IToArray;
+import functionalinterfaces.Compare;
+import functionalinterfaces.ToArray;
 import interfaces.IContainsPersonel;
 import linkedlist.LinkedList;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import person.Doctor;
 import person.Nurse;
 import person.Patient;
-import enums.*;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Hospital extends Business implements IContainsPersonel {
 
@@ -27,10 +28,10 @@ public class Hospital extends Business implements IContainsPersonel {
     private final String contactInfo;
 
     private final BusinessType businessType;
-    IToArray<LinkedList> toArrayLambda;
-    ICompare<Date> compareAgeLambda;
     private final LinkedList<Department> departments = new LinkedList<>();
     private final Function<Department, Boolean> nullCheck = s -> (s == null);
+    ToArray<LinkedList> toArrayLambda;
+    Compare<Date> compareAgeLambda;
 
     public Hospital(String name, String address, String contactInfo, BusinessType businessType) {
         this.name = name;
@@ -42,21 +43,16 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public int getPersonnelCount() {
-        int total = 0;
-        for (Department department : this.departments.toArray()) {
-            total += department.getPersonnelCount();
-        }
-        return total;
+        return getDepartments().stream()
+                .mapToInt(department -> department.getPersonnelCount())
+                .sum();
     }
 
     public Floor findPatientFloor(Patient patient) throws PatientNotInHospitalException {
-        for (Department department : departments.toArray()) {
-            for (Floor floor : department.getFloors()) {
-                if (floor.getPatients().contains(patient)) {
-                    return floor;
-                }
-            }
-        }
+        getDepartments().stream()
+                .flatMap(department -> department.getFloors().stream())
+                .filter(floor -> getPatients().contains(patient))
+                .findFirst();
         throw new PatientNotInHospitalException(patient + " not found");
     }
 
@@ -111,11 +107,9 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public ArrayList<Doctor> getDoctors() {
-        ArrayList<Doctor> allDocs = new ArrayList<>();
-        for (Department department : this.departments.toArray()) {
-            allDocs.addAll(department.getDoctors());
-        }
-        return allDocs;
+        return getDepartments().stream()
+                .flatMap(department -> department.getDoctors().stream())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void logDoctors() {
@@ -124,29 +118,23 @@ public class Hospital extends Business implements IContainsPersonel {
     }
 
     public Doctor getOldestDoctor() {
-        Doctor start = null;
-        for (Doctor doctor : getDoctors()) {
-            if (start == null || compareAgeLambda.myApply(start.getDob(), doctor.getDob()) > 0) {
-                start = doctor;
-            }
-        }
-        return start;
+        ArrayList<Doctor> doctors = getDoctors();
+        Doctor oldestDoctor = doctors.stream()
+                .reduce((first, current) -> compareAgeLambda.myApply(first.getDob(), current.getDob()) > 0 ? current : first)
+                .orElse(null);
+        return oldestDoctor;
     }
 
     public ArrayList<Nurse> getNurses() {
-        ArrayList<Nurse> allNurses = new ArrayList<>();
-        for (Department department : this.departments.toArray()) {
-            allNurses.addAll(department.getNurseArray());
-        }
-        return allNurses;
+        return getDepartments().stream()
+                .flatMap(department -> department.getNurseArray().stream())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<Patient> getPatients() {
-        ArrayList<Patient> allPatients = new ArrayList<>();
-        for (Department department : this.departments.toArray()) {
-            allPatients.addAll(department.getPatients());
-        }
-        return allPatients;
+        return getDepartments().stream()
+                .flatMap(department -> department.getPatients().stream())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

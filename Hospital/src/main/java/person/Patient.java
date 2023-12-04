@@ -9,6 +9,7 @@ public final class Patient extends Person implements IHospitalLocation {
 
     private String symptoms;
     private Appointment appointment;
+    private IHospitalLocation hospitalLocation = () -> getAppointment().getAppointmentInformation();
 
     public Patient(String firstName, String lastName, Date dateOfBirth, Character sex, String symptoms) {
         super(firstName, lastName, dateOfBirth, sex);
@@ -32,7 +33,6 @@ public final class Patient extends Person implements IHospitalLocation {
     }
 
     public String getLocation() {
-        IHospitalLocation hospitalLocation = () -> getAppointment().getAppointmentInformation();
         return hospitalLocation.getLocation();
     }
 

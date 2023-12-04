@@ -1,5 +1,6 @@
 package person;
 
+import enums.Month;
 import exceptions.AppointmentListEmptyException;
 import exceptions.AppointmentNotInListException;
 import interfaces.IHospitalLocation;
@@ -9,11 +10,12 @@ import location.Floor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import schedule.Appointment;
-import enums.Months;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.function.Predicate;
 
 public final class Doctor extends Employee implements IScheduler, IHospitalLocation {
 
@@ -45,29 +47,19 @@ public final class Doctor extends Employee implements IScheduler, IHospitalLocat
 
     @Override
     public boolean addAppointment(Date date, String timeSlot, Patient patient) {
-        if (date == null || timeSlot == null) {
+        Floor floor = this.getDepartment().patientFindFloor();
+        Predicate<Month> isValidDate = month -> (month.getMonthNumber() == date.getMonth() + 1) && (date.getDay() > month.getNumberOfDays());
+        Predicate<Appointment> isValidAppointment = appointment -> appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot);
+
+        if (date == null
+                || timeSlot == null
+                || floor == null
+                || !(IScheduler.timeSlots.contains(timeSlot))
+                || Arrays.stream(Month.values()).anyMatch(isValidDate)
+                || getAppointments().stream().anyMatch(isValidAppointment)) {
             return false;
-        }
-        for (Months month : Months.values()) {
-            if (month.getMonthNumber() == date.getMonth() + 1) {
-                if (date.getDay() > month.getNumberOfDays()) {
-                    return false;
-                }
-            }
         }
 
-        if (!(IScheduler.timeSlots.contains(timeSlot))) {
-            return false;
-        }
-        Floor floor = this.getDepartment().patientFindFloor();
-        if (floor == null) {
-            return false;
-        }
-        for (Appointment appointment : this.appointments) {
-            if (appointment.getDate().equals(date) && appointment.getTimeSlot().equals(timeSlot)) {
-                return false;
-            }
-        }
         String appointmentInformation = "Patient: " + patient + ", Department: " + getDepartment() +
                 ", Floor: " + floor.getFloorNumber() + ", Doctor: " + this
                 + ", Date: " + date + ", TimeSlot: " + timeSlot;

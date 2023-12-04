@@ -1,7 +1,7 @@
 package person;
 
-import functionalinterfaces.IFiveParameters;
 import enums.Sex;
+import functionalinterfaces.FiveParameters;
 
 import java.util.Date;
 import java.util.function.Supplier;
@@ -14,7 +14,7 @@ public class Person {
     private final int ID;
     Supplier<Integer> randomSupplier;
     Supplier<String> nameSupplier;
-    IFiveParameters<String> concatStringLambda;
+    FiveParameters<String> concatStringLambda;
     private String firstName;
     private String lastName;
 
