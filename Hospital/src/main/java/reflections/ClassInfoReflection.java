@@ -17,25 +17,23 @@ public class ClassInfoReflection {
     Class<?> targetClass;
     Object classInstance;
 
-    public ClassInfoReflection(Object targetClass){
-
+    public ClassInfoReflection(Object targetClass) {
         this.targetClass = targetClass.getClass();
-
     }
 
-    public void getClassName(){
+    public void getClassName() {
         LOGGER.info("ClassName: " + targetClass.getSimpleName());
     }
 
-    public void getSuperClass(){
-        LOGGER.info("Superclass: " + targetClass.getSuperclass() != null? targetClass.getSuperclass(): "None");
+    public void getSuperClass() {
+        LOGGER.info("Superclass: " + targetClass.getSuperclass() != null ? targetClass.getSuperclass() : "None");
     }
 
-    public void logFields(){
+    public void logFields() {
         LOGGER.info("Fields: ");
         Class<?> tmpClass = targetClass;
         ArrayList<Field> fields = new ArrayList<>();
-        while (tmpClass != null){
+        while (tmpClass != null) {
             Arrays.stream(tmpClass.getDeclaredFields()).forEach(field -> fields.add(field));
             tmpClass = tmpClass.getSuperclass();
         }
@@ -53,11 +51,11 @@ public class ClassInfoReflection {
         constructors.stream().forEach(constructor -> LOGGER.info("-" + constructor));
     }
 
-    public void logMethods(){
+    public void logMethods() {
         LOGGER.info("Methods:");
         Class<?> tmpClass = targetClass;
         ArrayList<Method> methods = new ArrayList<>();
-        while (tmpClass != null){
+        while (tmpClass != null) {
             Arrays.stream(targetClass.getDeclaredMethods()).forEach(method -> methods.add(method));
             tmpClass = tmpClass.getSuperclass();
         }
@@ -74,7 +72,8 @@ public class ClassInfoReflection {
         try {
             Constructor<T> constructor = targetClass.getDeclaredConstructor(getParameterTypes(constructorArgs));
             return constructor.newInstance(constructorArgs);
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException e) {
             LOGGER.error(e.getMessage());
             return null;
         }

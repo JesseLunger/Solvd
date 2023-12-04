@@ -14,10 +14,10 @@ import person.Doctor;
 import person.Nurse;
 import person.Patient;
 import person.Person;
+import reflections.ClassInfoReflection;
 import schedule.Appointment;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
-import reflections.ClassInfoReflection;
 
 import java.io.File;
 import java.io.IOException;
