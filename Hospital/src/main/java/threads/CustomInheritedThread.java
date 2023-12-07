@@ -6,14 +6,13 @@ import org.apache.logging.log4j.Logger;
 import java.lang.invoke.MethodHandles;
 import java.util.Random;
 
-
-public class CustomRunnableThread implements Runnable {
+public class CustomInheritedThread extends Thread {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
-    private static final Random random = new Random();
     CustomConnection connection;
+    private static final Random random = new Random();
 
-    public CustomRunnableThread(CustomConnection connection) {
+    public CustomInheritedThread(CustomConnection connection) {
         this.connection = connection;
     }
 
@@ -29,4 +28,5 @@ public class CustomRunnableThread implements Runnable {
             connection.release();
         }
     }
+
 }

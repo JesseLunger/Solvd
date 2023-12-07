@@ -17,9 +17,7 @@ import person.Patient;
 import person.Person;
 import reflections.ClassInfoReflection;
 import schedule.Appointment;
-import threads.ConnectionPool;
-import threads.CustomFuture;
-import threads.CustomRunnableThread;
+import threads.ThreadManager;
 import transport.Ambulance;
 import uniquewordfilereader.MyFileReader;
 
@@ -185,21 +183,23 @@ public class Main {
 
         LOGGER.info("\n\n--------------Begin CustomRunnableThread demonstrations----------\n");
 
-        ConnectionPool connectionPool = new ConnectionPool();
-        CustomRunnableThread customRunnableThread = new CustomRunnableThread(connectionPool);
-        customRunnableThread.repeatActivation(7);
+        ThreadManager threadManager = new ThreadManager();
+        threadManager.repeatActivation(7, "runnable");
+
+        LOGGER.info("\n\n--------------Begin CustomInheritedThread demonstrations----------\n");
+
+        threadManager.repeatActivation(7, "inherited");
 
         LOGGER.info("\n\n--------------Finished CustomRunnableThread demonstrations, preparing for CustomFuture demonstration----------\n");
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
         }
 
-        CustomFuture futureThread = new CustomFuture(connectionPool);
-        CompletableFuture<Void> stage1 = futureThread.getStage(5);
-        CompletableFuture<Void> stage2 = stage1.thenCompose(result -> futureThread.getStage(2));
+        CompletableFuture<Void> stage1 = threadManager.getStage(5);
+        CompletableFuture<Void> stage2 = stage1.thenCompose(result -> threadManager.getStage(2));
         try {
             stage2.get();
         } catch (InterruptedException | ExecutionException e) {

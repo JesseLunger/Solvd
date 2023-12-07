@@ -11,17 +11,20 @@ public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private static final int POOL_SIZE = 5;
-    private final BlockingQueue<CustomConnection> pool;
+    private static final BlockingQueue<CustomConnection> pool = new ArrayBlockingQueue<>(POOL_SIZE);
+    private volatile static ConnectionPool instance;
 
-    public ConnectionPool() {
-        pool = new ArrayBlockingQueue<>(POOL_SIZE);
-        initializePool();
-    }
-
-    private void initializePool() {
+    private ConnectionPool(int size) {
         for (int i = 0; i < POOL_SIZE; i++) {
             pool.offer(new CustomConnection());
         }
+    }
+
+    public synchronized static ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool(POOL_SIZE);
+        }
+        return instance;
     }
 
     public CustomConnection getConnection() throws InterruptedException {
@@ -32,4 +35,5 @@ public class ConnectionPool {
     public void releaseConnection(CustomConnection connection) {
         pool.offer(connection);
     }
+
 }

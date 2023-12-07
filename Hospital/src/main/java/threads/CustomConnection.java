@@ -1,5 +1,8 @@
 package threads;
 
 public class CustomConnection {
-    //Mock Class
+
+    public void release() {
+        ConnectionPool.getInstance().releaseConnection(this);
+    }
 }
